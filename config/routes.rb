@@ -1,5 +1,8 @@
 Rails.application.routes.draw do
   devise_for :users
+  get "/auth/:provider/callback" => "sessions/omni_auths#create", as: :omniauth_callback
+  get "/auth/failure" => "sessions/omni_auths#failure", as: :omniauth_failure
+
   # get "home/index"
   root "home#index"
   # Define your application routes per the DSL in https://guides.rubyonrails.org/routing.html
