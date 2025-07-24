@@ -67,3 +67,8 @@ end
 gem "devise", "~> 4.9"
 gem "omniauth-google-oauth2", "~> 1.2"
 gem "omniauth-rails_csrf_protection", "~> 1.0"
+
+gem "dotenv", "~> 3.1"
+
+gem "byebug", "~> 12.0"
+gem "awesome_print", "~> 1.9"
