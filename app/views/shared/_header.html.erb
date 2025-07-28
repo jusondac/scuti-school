@@ -15,6 +15,18 @@
         <%= link_to "Programs", "#programs", class: "text-gray-600 dark:text-gray-300 hover:text-indigo-600 dark:hover:text-indigo-400 transition-colors font-medium" %>
         <%= link_to "Admissions", "#admissions", class: "text-gray-600 dark:text-gray-300 hover:text-indigo-600 dark:hover:text-indigo-400 transition-colors font-medium" %>
         <%= link_to "Contact", "#contact", class: "text-gray-600 dark:text-gray-300 hover:text-indigo-600 dark:hover:text-indigo-400 transition-colors font-medium" %>
+        <!-- Authentication Links -->
+        <% if user_signed_in? %>
+          <div class="flex items-center space-x-4 ml-4">
+            <span class="text-gray-600 dark:text-gray-300 text-sm">Hello, <%= current_user.email.split('@').first.capitalize %></span>
+            <%= button_to "Sign Out", destroy_user_session_path, method: :delete, class: "bg-gray-600 dark:bg-gray-700 text-white px-4 py-2 rounded-lg font-medium hover:bg-gray-700 dark:hover:bg-gray-600 transition-colors" %>
+          </div>
+        <% else %>
+          <div class="flex items-center space-x-3 ml-4">
+            <%= link_to "Sign In", new_user_session_path, class: "text-gray-600 dark:text-gray-300 hover:text-indigo-600 dark:hover:text-indigo-400 transition-colors font-medium" %>
+            <%= link_to "Sign Up", new_user_registration_path, class: "bg-indigo-600 dark:bg-indigo-500 text-white px-4 py-2 rounded-lg font-medium hover:bg-indigo-700 dark:hover:bg-indigo-600 transition-colors" %>
+          </div>
+        <% end %>
         <!-- Dark Mode Toggle -->
         <button id="darkModeToggle" class="p-2 rounded-lg text-gray-600 dark:text-gray-300 hover:bg-gray-100 dark:hover:bg-gray-700 transition-colors">
           <!-- Sun Icon (shown in dark mode) -->
@@ -26,19 +38,6 @@
             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M20.354 15.354A9 9 0 018.646 3.646 9.003 9.003 0 0012 21a9.003 9.003 0 008.354-5.646z"></path>
           </svg>
         </button>
-        <!-- Authentication Links -->
-        <% if user_signed_in? %>
-          <div class="flex items-center space-x-4 ml-4">
-            <span class="text-gray-600 dark:text-gray-300 text-sm">Hello, <%= current_user.email.split('@').first.capitalize %></span>
-            <%= link_to "Dashboard", "#dashboard", class: "text-gray-600 dark:text-gray-300 hover:text-indigo-600 dark:hover:text-indigo-400 transition-colors font-medium" %>
-            <%= link_to "Sign Out", destroy_user_session_path, method: :delete, class: "bg-gray-600 dark:bg-gray-700 text-white px-4 py-2 rounded-lg font-medium hover:bg-gray-700 dark:hover:bg-gray-600 transition-colors" %>
-          </div>
-        <% else %>
-          <div class="flex items-center space-x-3 ml-4">
-            <%= link_to "Sign In", new_user_session_path, class: "text-gray-600 dark:text-gray-300 hover:text-indigo-600 dark:hover:text-indigo-400 transition-colors font-medium" %>
-            <%= link_to "Sign Up", new_user_registration_path, class: "bg-indigo-600 dark:bg-indigo-500 text-white px-4 py-2 rounded-lg font-medium hover:bg-indigo-700 dark:hover:bg-indigo-600 transition-colors" %>
-          </div>
-        <% end %>
       </div>
       <!-- Mobile menu button -->
       <div class="md:hidden flex items-center space-x-2">

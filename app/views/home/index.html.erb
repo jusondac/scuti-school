@@ -65,6 +65,234 @@
         </p>
       </div>
     </div>
+    <!-- Pricing Plans Section -->
+    <div id="pricing" class="mb-20">
+      <div class="text-center mb-16">
+        <div class="inline-flex items-center px-4 py-2 bg-indigo-50 dark:bg-indigo-900/30 rounded-full mb-6">
+          <span class="text-indigo-600 dark:text-indigo-400 text-sm font-medium">💡 Choose Your Path</span>
+        </div>
+        <h2 class="text-5xl font-bold text-gray-900 dark:text-white mb-6 leading-tight">
+          Modern Learning,<br>
+          <span class="text-indigo-600 dark:text-indigo-400">Fair Pricing</span>
+        </h2>
+        <p class="text-xl text-gray-600 dark:text-gray-300 max-w-3xl mx-auto leading-relaxed">
+          Experience the future of education with our AI-powered platform designed for every learner's journey
+        </p>
+      </div>
+      <div class="grid lg:grid-cols-3 gap-8 lg:gap-12 max-w-7xl mx-auto items-start">
+        <!-- Free Plan -->
+        <div class="group relative bg-white dark:bg-gray-800 rounded-3xl p-8 border border-gray-100 dark:border-gray-700 hover:border-gray-200 dark:hover:border-gray-600 transition-all duration-300 hover:shadow-xl hover:-translate-y-1">
+          
+          <div class="mb-8">
+            <div class="flex items-center justify-between mb-4">
+              <h3 class="text-2xl font-bold text-gray-900 dark:text-white">Free Starter</h3>
+              <div class="w-12 h-12 bg-gray-100 dark:bg-gray-700 rounded-2xl flex items-center justify-center">
+                <span class="text-2xl">🚀</span>
+              </div>
+            </div>
+            <div class="flex items-baseline mb-2">
+              <span class="text-5xl font-bold text-gray-900 dark:text-white">$0</span>
+              <span class="text-gray-500 dark:text-gray-400 ml-2">/month</span>
+            </div>
+            <p class="text-gray-600 dark:text-gray-300 text-sm">Perfect to get started</p>
+          </div>
+          <div class="space-y-4 mb-8">
+            <div class="flex items-start space-x-3">
+              <div class="w-6 h-6 bg-indigo-100 dark:bg-indigo-900/50 rounded-lg flex items-center justify-center mt-0.5 flex-shrink-0">
+                <svg class="w-4 h-4 text-indigo-600 dark:text-indigo-400" fill="currentColor" viewBox="0 0 20 20">
+                  <path fill-rule="evenodd" d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z" clip-rule="evenodd"></path>
+                </svg>
+              </div>
+              <span class="text-gray-700 dark:text-gray-300 font-medium">Basic AI tutoring sessions</span>
+            </div>
+            <div class="flex items-start space-x-3">
+              <div class="w-6 h-6 bg-indigo-100 dark:bg-indigo-900/50 rounded-lg flex items-center justify-center mt-0.5 flex-shrink-0">
+                <svg class="w-4 h-4 text-indigo-600 dark:text-indigo-400" fill="currentColor" viewBox="0 0 20 20">
+                  <path fill-rule="evenodd" d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z" clip-rule="evenodd"></path>
+                </svg>
+              </div>
+              <span class="text-gray-700 dark:text-gray-300 font-medium">Core curriculum access</span>
+            </div>
+            <div class="flex items-start space-x-3">
+              <div class="w-6 h-6 bg-indigo-100 dark:bg-indigo-900/50 rounded-lg flex items-center justify-center mt-0.5 flex-shrink-0">
+                <svg class="w-4 h-4 text-indigo-600 dark:text-indigo-400" fill="currentColor" viewBox="0 0 20 20">
+                  <path fill-rule="evenodd" d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z" clip-rule="evenodd"></path>
+                </svg>
+              </div>
+              <span class="text-gray-700 dark:text-gray-300 font-medium">Community support</span>
+            </div>
+            <div class="flex items-start space-x-3">
+              <div class="w-6 h-6 bg-indigo-100 dark:bg-indigo-900/50 rounded-lg flex items-center justify-center mt-0.5 flex-shrink-0">
+                <svg class="w-4 h-4 text-indigo-600 dark:text-indigo-400" fill="currentColor" viewBox="0 0 20 20">
+                  <path fill-rule="evenodd" d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z" clip-rule="evenodd"></path>
+                </svg>
+              </div>
+              <span class="text-gray-700 dark:text-gray-300 font-medium">Basic progress tracking</span>
+            </div>
+          </div>
+          <% if user_signed_in? %>
+            <button class="w-full bg-gray-50 dark:bg-gray-700 text-gray-700 dark:text-gray-300 py-4 rounded-2xl font-semibold hover:bg-gray-100 dark:hover:bg-gray-600 transition-colors duration-200">
+              Current Plan
+            </button>
+          <% else %>
+            <%= link_to "Start Learning Free", new_user_registration_path, class: "w-full block text-center bg-gray-50 dark:bg-gray-700 text-gray-700 dark:text-gray-300 py-4 rounded-2xl font-semibold hover:bg-gray-100 dark:hover:bg-gray-600 transition-colors duration-200" %>
+          <% end %>
+        </div>
+        <!-- Junior Plan -->
+        <div class="group relative bg-white dark:bg-gray-800 rounded-3xl p-8 border-2 border-indigo-500 dark:border-indigo-400 hover:border-indigo-600 dark:hover:border-indigo-300 transition-all duration-300 hover:shadow-2xl hover:-translate-y-2 lg:scale-105 lg:hover:scale-110">
+          <div class="absolute -top-5 left-1/2 transform -translate-x-1/2 z-10">
+            <div class="bg-gradient-to-r from-indigo-500 to-purple-600 text-white px-6 py-2 rounded-full text-sm font-bold shadow-lg">
+              ⭐ Most Popular
+            </div>
+          </div>
+          
+          <div class="mb-8 pt-4">
+            <div class="flex items-center justify-between mb-4">
+              <h3 class="text-2xl font-bold text-gray-900 dark:text-white">Junior Pro</h3>
+              <div class="w-12 h-12 bg-indigo-100 dark:bg-indigo-900/50 rounded-2xl flex items-center justify-center">
+                <span class="text-2xl">🎯</span>
+              </div>
+            </div>
+            <div class="flex items-baseline mb-2">
+              <span class="text-5xl font-bold text-indigo-600 dark:text-indigo-400">$99</span>
+              <span class="text-gray-500 dark:text-gray-400 ml-2">/month</span>
+            </div>
+            <p class="text-gray-600 dark:text-gray-300 text-sm">Best value for serious learners</p>
+          </div>
+          <div class="space-y-4 mb-8">
+            <div class="flex items-start space-x-3">
+              <div class="w-6 h-6 bg-indigo-100 dark:bg-indigo-900/50 rounded-lg flex items-center justify-center mt-0.5 flex-shrink-0">
+                <svg class="w-4 h-4 text-indigo-600 dark:text-indigo-400" fill="currentColor" viewBox="0 0 20 20">
+                  <path fill-rule="evenodd" d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z" clip-rule="evenodd"></path>
+                </svg>
+              </div>
+              <span class="text-gray-700 dark:text-gray-300 font-medium">Everything in Free</span>
+            </div>
+            <div class="flex items-start space-x-3">
+              <div class="w-6 h-6 bg-indigo-100 dark:bg-indigo-900/50 rounded-lg flex items-center justify-center mt-0.5 flex-shrink-0">
+                <svg class="w-4 h-4 text-indigo-600 dark:text-indigo-400" fill="currentColor" viewBox="0 0 20 20">
+                  <path fill-rule="evenodd" d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z" clip-rule="evenodd"></path>
+                </svg>
+              </div>
+              <span class="text-gray-700 dark:text-gray-300 font-medium">Live human teacher sessions</span>
+            </div>
+            <div class="flex items-start space-x-3">
+              <div class="w-6 h-6 bg-indigo-100 dark:bg-indigo-900/50 rounded-lg flex items-center justify-center mt-0.5 flex-shrink-0">
+                <svg class="w-4 h-4 text-indigo-600 dark:text-indigo-400" fill="currentColor" viewBox="0 0 20 20">
+                  <path fill-rule="evenodd" d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z" clip-rule="evenodd"></path>
+                </svg>
+              </div>
+              <span class="text-gray-700 dark:text-gray-300 font-medium">Advanced AI tutoring</span>
+            </div>
+            <div class="flex items-start space-x-3">
+              <div class="w-6 h-6 bg-indigo-100 dark:bg-indigo-900/50 rounded-lg flex items-center justify-center mt-0.5 flex-shrink-0">
+                <svg class="w-4 h-4 text-indigo-600 dark:text-indigo-400" fill="currentColor" viewBox="0 0 20 20">
+                  <path fill-rule="evenodd" d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z" clip-rule="evenodd"></path>
+                </svg>
+              </div>
+              <span class="text-gray-700 dark:text-gray-300 font-medium">Personalized learning paths</span>
+            </div>
+            <div class="flex items-start space-x-3">
+              <div class="w-6 h-6 bg-indigo-100 dark:bg-indigo-900/50 rounded-lg flex items-center justify-center mt-0.5 flex-shrink-0">
+                <svg class="w-4 h-4 text-indigo-600 dark:text-indigo-400" fill="currentColor" viewBox="0 0 20 20">
+                  <path fill-rule="evenodd" d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z" clip-rule="evenodd"></path>
+                </svg>
+              </div>
+              <span class="text-gray-700 dark:text-gray-300 font-medium">Monthly progress reports</span>
+            </div>
+          </div>
+          <button class="w-full bg-gradient-to-r from-indigo-600 to-purple-600 hover:from-indigo-700 hover:to-purple-700 text-white py-4 rounded-2xl font-bold transition-all duration-200 shadow-lg hover:shadow-xl">
+            Choose Junior Pro
+          </button>
+        </div>
+        <!-- Senior Plan -->
+        <div class="group relative bg-white dark:bg-gray-800 rounded-3xl p-8 border border-gray-100 dark:border-gray-700 hover:border-purple-200 dark:hover:border-purple-600 transition-all duration-300 hover:shadow-xl hover:-translate-y-1">
+          
+          <div class="mb-8">
+            <div class="flex items-center justify-between mb-4">
+              <h3 class="text-2xl font-bold text-gray-900 dark:text-white">Senior Elite</h3>
+              <div class="w-12 h-12 bg-purple-100 dark:bg-purple-900/50 rounded-2xl flex items-center justify-center">
+                <span class="text-2xl">👑</span>
+              </div>
+            </div>
+            <div class="flex items-baseline mb-2">
+              <span class="text-5xl font-bold text-purple-600 dark:text-purple-400">$199</span>
+              <span class="text-gray-500 dark:text-gray-400 ml-2">/month</span>
+            </div>
+            <p class="text-gray-600 dark:text-gray-300 text-sm">Premium experience & guidance</p>
+          </div>
+          <div class="space-y-4 mb-8">
+            <div class="flex items-start space-x-3">
+              <div class="w-6 h-6 bg-purple-100 dark:bg-purple-900/50 rounded-lg flex items-center justify-center mt-0.5 flex-shrink-0">
+                <svg class="w-4 h-4 text-purple-600 dark:text-purple-400" fill="currentColor" viewBox="0 0 20 20">
+                  <path fill-rule="evenodd" d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z" clip-rule="evenodd"></path>
+                </svg>
+              </div>
+              <span class="text-gray-700 dark:text-gray-300 font-medium">Everything in Junior</span>
+            </div>
+            <div class="flex items-start space-x-3">
+              <div class="w-6 h-6 bg-purple-100 dark:bg-purple-900/50 rounded-lg flex items-center justify-center mt-0.5 flex-shrink-0">
+                <svg class="w-4 h-4 text-purple-600 dark:text-purple-400" fill="currentColor" viewBox="0 0 20 20">
+                  <path fill-rule="evenodd" d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z" clip-rule="evenodd"></path>
+                </svg>
+              </div>
+              <span class="text-gray-700 dark:text-gray-300 font-medium">1-on-1 mentoring sessions</span>
+            </div>
+            <div class="flex items-start space-x-3">
+              <div class="w-6 h-6 bg-purple-100 dark:bg-purple-900/50 rounded-lg flex items-center justify-center mt-0.5 flex-shrink-0">
+                <svg class="w-4 h-4 text-purple-600 dark:text-purple-400" fill="currentColor" viewBox="0 0 20 20">
+                  <path fill-rule="evenodd" d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z" clip-rule="evenodd"></path>
+                </svg>
+              </div>
+              <span class="text-gray-700 dark:text-gray-300 font-medium">College prep guidance</span>
+            </div>
+            <div class="flex items-start space-x-3">
+              <div class="w-6 h-6 bg-purple-100 dark:bg-purple-900/50 rounded-lg flex items-center justify-center mt-0.5 flex-shrink-0">
+                <svg class="w-4 h-4 text-purple-600 dark:text-purple-400" fill="currentColor" viewBox="0 0 20 20">
+                  <path fill-rule="evenodd" d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z" clip-rule="evenodd"></path>
+                </svg>
+              </div>
+              <span class="text-gray-700 dark:text-gray-300 font-medium">Priority support 24/7</span>
+            </div>
+            <div class="flex items-start space-x-3">
+              <div class="w-6 h-6 bg-purple-100 dark:bg-purple-900/50 rounded-lg flex items-center justify-center mt-0.5 flex-shrink-0">
+                <svg class="w-4 h-4 text-purple-600 dark:text-purple-400" fill="currentColor" viewBox="0 0 20 20">
+                  <path fill-rule="evenodd" d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z" clip-rule="evenodd"></path>
+                </svg>
+              </div>
+              <span class="text-gray-700 dark:text-gray-300 font-medium">Career counseling</span>
+            </div>
+          </div>
+          <button class="w-full bg-gradient-to-r from-purple-600 to-pink-600 hover:from-purple-700 hover:to-pink-700 text-white py-4 rounded-2xl font-bold transition-all duration-200 shadow-lg hover:shadow-xl">
+            Choose Senior Elite
+          </button>
+        </div>
+      </div>
+      <!-- Additional Info -->
+      <div class="text-center mt-12">
+        <p class="text-gray-600 dark:text-gray-400 mb-4">All plans include a 14-day money-back guarantee</p>
+        <div class="flex flex-wrap justify-center gap-8 text-sm text-gray-500 dark:text-gray-500">
+          <span class="flex items-center gap-2">
+            <svg class="w-4 h-4 text-green-500" fill="currentColor" viewBox="0 0 20 20">
+              <path fill-rule="evenodd" d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z" clip-rule="evenodd"></path>
+            </svg>
+            Cancel anytime
+          </span>
+          <span class="flex items-center gap-2">
+            <svg class="w-4 h-4 text-green-500" fill="currentColor" viewBox="0 0 20 20">
+              <path fill-rule="evenodd" d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z" clip-rule="evenodd"></path>
+            </svg>
+            No setup fees
+          </span>
+          <span class="flex items-center gap-2">
+            <svg class="w-4 h-4 text-green-500" fill="currentColor" viewBox="0 0 20 20">
+              <path fill-rule="evenodd" d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z" clip-rule="evenodd"></path>
+            </svg>
+            Secure payments
+          </span>
+        </div>
+      </div>
+    </div>
     <!-- About Section -->
     <div id="about" class="bg-white dark:bg-gray-800 rounded-3xl p-12 shadow-sm border border-gray-100 dark:border-gray-700 transition-colors duration-300">
       <div class="grid lg:grid-cols-2 gap-12 items-center">
