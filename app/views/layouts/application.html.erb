@@ -27,7 +27,8 @@
   </head>
   <body class="min-h-screen bg-gray-50 dark:bg-gray-900 transition-colors duration-300">
     <%= render 'shared/header' unless content_for?(:no_header) %>
-    <main class="<%= content_for?(:no_container) ? '' : 'container mx-auto px-4 sm:px-6 lg:px-8' %>">
+    <%= render 'shared/sidebar' if user_signed_in? && !content_for?(:no_header) %>
+    <main class="<%= user_signed_in? && !content_for?(:no_header) ? 'lg:ml-64 pt-4' : '' %> <%= content_for?(:no_container) ? '' : 'container mx-auto px-4 sm:px-6 lg:px-8' %>">
       <%= yield %>
     </main>
     <%= render 'shared/footer' unless content_for?(:no_footer) %>

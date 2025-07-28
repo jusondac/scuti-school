@@ -1,0 +1,131 @@
+<% content_for :title, "Teacher Dashboard" %>
+<div class="space-y-6">
+  <!-- Welcome Section -->
+  <div class="bg-white dark:bg-gray-800 rounded-lg shadow-sm border border-gray-200 dark:border-gray-700 p-6">
+    <h1 class="text-2xl font-bold text-gray-900 dark:text-white mb-2">
+      Welcome back, Professor <%= current_user.email.split('@').first.capitalize %>!
+    </h1>
+    <p class="text-gray-600 dark:text-gray-400">Here's your teaching overview for today.</p>
+  </div>
+  <!-- Quick Stats -->
+  <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
+    <div class="bg-white dark:bg-gray-800 rounded-lg shadow-sm border border-gray-200 dark:border-gray-700 p-6">
+      <div class="flex items-center">
+        <div class="w-12 h-12 bg-blue-100 dark:bg-blue-900/30 rounded-lg flex items-center justify-center">
+          <svg class="w-6 h-6 text-blue-600 dark:text-blue-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 6.253v13m0-13C10.832 5.477 9.246 5 7.5 5S4.168 5.477 3 6.253v13C4.168 18.477 5.754 18 7.5 18s3.332.477 4.5 1.253m0-13C13.168 5.477 14.754 5 16.5 5c1.746 0 3.332.477 4.5 1.253v13C19.832 18.477 18.246 18 16.5 18c-1.746 0-3.332.477-4.5 1.253"></path>
+          </svg>
+        </div>
+        <div class="ml-4">
+          <p class="text-sm font-medium text-gray-600 dark:text-gray-400">Active Classes</p>
+          <p class="text-2xl font-bold text-gray-900 dark:text-white">8</p>
+        </div>
+      </div>
+    </div>
+    <div class="bg-white dark:bg-gray-800 rounded-lg shadow-sm border border-gray-200 dark:border-gray-700 p-6">
+      <div class="flex items-center">
+        <div class="w-12 h-12 bg-green-100 dark:bg-green-900/30 rounded-lg flex items-center justify-center">
+          <svg class="w-6 h-6 text-green-600 dark:text-green-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 4.354a4 4 0 110 5.292M15 21H3v-1a6 6 0 0112 0v1zm0 0h6v-1a6 6 0 00-9-5.197m13.5-9a2.5 2.5 0 11-5 0 2.5 2.5 0 015 0z"></path>
+          </svg>
+        </div>
+        <div class="ml-4">
+          <p class="text-sm font-medium text-gray-600 dark:text-gray-400">Total Students</p>
+          <p class="text-2xl font-bold text-gray-900 dark:text-white">156</p>
+        </div>
+      </div>
+    </div>
+    <div class="bg-white dark:bg-gray-800 rounded-lg shadow-sm border border-gray-200 dark:border-gray-700 p-6">
+      <div class="flex items-center">
+        <div class="w-12 h-12 bg-yellow-100 dark:bg-yellow-900/30 rounded-lg flex items-center justify-center">
+          <svg class="w-6 h-6 text-yellow-600 dark:text-yellow-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5H7a2 2 0 00-2 2v10a2 2 0 002 2h8a2 2 0 002-2V7a2 2 0 00-2-2h-2M9 5a2 2 0 002 2h2a2 2 0 002-2M9 5a2 2 0 012-2h2a2 2 0 012 2m-3 7h3m-3 4h3m-6-4h.01M9 16h.01"></path>
+          </svg>
+        </div>
+        <div class="ml-4">
+          <p class="text-sm font-medium text-gray-600 dark:text-gray-400">Pending Grading</p>
+          <p class="text-2xl font-bold text-gray-900 dark:text-white">23</p>
+        </div>
+      </div>
+    </div>
+    <div class="bg-white dark:bg-gray-800 rounded-lg shadow-sm border border-gray-200 dark:border-gray-700 p-6">
+      <div class="flex items-center">
+        <div class="w-12 h-12 bg-purple-100 dark:bg-purple-900/30 rounded-lg flex items-center justify-center">
+          <svg class="w-6 h-6 text-purple-600 dark:text-purple-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 7V3a2 2 0 012-2h4a2 2 0 012 2v4h3a2 2 0 012 2v9a2 2 0 01-2 2H5a2 2 0 01-2-2V9a2 2 0 012-2h3z"></path>
+          </svg>
+        </div>
+        <div class="ml-4">
+          <p class="text-sm font-medium text-gray-600 dark:text-gray-400">Today's Classes</p>
+          <p class="text-2xl font-bold text-gray-900 dark:text-white">4</p>
+        </div>
+      </div>
+    </div>
+  </div>
+  <!-- Recent Activity and Schedule -->
+  <div class="grid grid-cols-1 lg:grid-cols-2 gap-6">
+    <!-- Recent Activity -->
+    <div class="bg-white dark:bg-gray-800 rounded-lg shadow-sm border border-gray-200 dark:border-gray-700 p-6">
+      <h2 class="text-lg font-semibold text-gray-900 dark:text-white mb-4">Recent Activity</h2>
+      <div class="space-y-4">
+        <div class="flex items-start space-x-3">
+          <div class="w-2 h-2 bg-green-500 rounded-full mt-2"></div>
+          <div>
+            <p class="text-sm font-medium text-gray-900 dark:text-white">Graded Physics Midterm</p>
+            <p class="text-xs text-gray-500 dark:text-gray-400">1 hour ago</p>
+          </div>
+        </div>
+        <div class="flex items-start space-x-3">
+          <div class="w-2 h-2 bg-blue-500 rounded-full mt-2"></div>
+          <div>
+            <p class="text-sm font-medium text-gray-900 dark:text-white">Created new assignment for AP Chemistry</p>
+            <p class="text-xs text-gray-500 dark:text-gray-400">3 hours ago</p>
+          </div>
+        </div>
+        <div class="flex items-start space-x-3">
+          <div class="w-2 h-2 bg-yellow-500 rounded-full mt-2"></div>
+          <div>
+            <p class="text-sm font-medium text-gray-900 dark:text-white">Updated lesson plan for Biology</p>
+            <p class="text-xs text-gray-500 dark:text-gray-400">Yesterday</p>
+          </div>
+        </div>
+      </div>
+    </div>
+    <!-- Today's Schedule -->
+    <div class="bg-white dark:bg-gray-800 rounded-lg shadow-sm border border-gray-200 dark:border-gray-700 p-6">
+      <h2 class="text-lg font-semibold text-gray-900 dark:text-white mb-4">Today's Schedule</h2>
+      <div class="space-y-4">
+        <div class="p-3 bg-blue-50 dark:bg-blue-900/20 rounded-lg border border-blue-200 dark:border-blue-800">
+          <p class="text-sm font-medium text-blue-900 dark:text-blue-200">AP Physics</p>
+          <p class="text-xs text-blue-600 dark:text-blue-400">9:00 AM - 10:30 AM • Room 204</p>
+        </div>
+        <div class="p-3 bg-green-50 dark:bg-green-900/20 rounded-lg border border-green-200 dark:border-green-800">
+          <p class="text-sm font-medium text-green-900 dark:text-green-200">Chemistry Lab</p>
+          <p class="text-xs text-green-600 dark:text-green-400">11:00 AM - 12:30 PM • Lab 101</p>
+        </div>
+        <div class="p-3 bg-purple-50 dark:bg-purple-900/20 rounded-lg border border-purple-200 dark:border-purple-800">
+          <p class="text-sm font-medium text-purple-900 dark:text-purple-200">Office Hours</p>
+          <p class="text-xs text-purple-600 dark:text-purple-400">2:00 PM - 4:00 PM • Office 302</p>
+        </div>
+      </div>
+    </div>
+  </div>
+  <!-- Class Performance Overview -->
+  <div class="bg-white dark:bg-gray-800 rounded-lg shadow-sm border border-gray-200 dark:border-gray-700 p-6">
+    <h2 class="text-lg font-semibold text-gray-900 dark:text-white mb-4">Class Performance Overview</h2>
+    <div class="grid grid-cols-1 md:grid-cols-3 gap-4">
+      <div class="text-center">
+        <p class="text-2xl font-bold text-green-600 dark:text-green-400">87%</p>
+        <p class="text-sm text-gray-600 dark:text-gray-400">Average Class Score</p>
+      </div>
+      <div class="text-center">
+        <p class="text-2xl font-bold text-blue-600 dark:text-blue-400">94%</p>
+        <p class="text-sm text-gray-600 dark:text-gray-400">Assignment Completion</p>
+      </div>
+      <div class="text-center">
+        <p class="text-2xl font-bold text-purple-600 dark:text-purple-400">96%</p>
+        <p class="text-sm text-gray-600 dark:text-gray-400">Attendance Rate</p>
+      </div>
+    </div>
+  </div>
+</div>

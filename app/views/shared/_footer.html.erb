@@ -1,5 +1,5 @@
-<footer class="bg-gray-800 dark:bg-gray-900 text-white mt-16 transition-colors duration-300">
-  <div class="container mx-auto px-4 sm:px-6 lg:px-8 py-12">
+<footer class="bg-gray-800 dark:bg-gray-900 text-white mt-16 transition-colors duration-300 <%= user_signed_in? ? 'lg:ml-64' : '' %>">
+  <div class="<%= user_signed_in? ? 'px-4 sm:px-6 lg:px-8' : 'container mx-auto px-4 sm:px-6 lg:px-8' %> py-12">
     <div class="grid grid-cols-1 md:grid-cols-4 gap-8">
       <!-- School Info -->
       <div class="col-span-1 md:col-span-2">
