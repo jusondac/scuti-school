@@ -1,10 +1,6 @@
-<div class="container mx-auto px-4               <p><strong>Visibility:</strong>
-  <span class="inline-flex items-center px-2 py-1 rounded-full text-xs font-medium
-                           <%= class_room.visibility == 'visible_to_all' ? 'bg-blue-100 text-blue-800' : 'bg-purple-100 text-purple-800' %>">
-    <%= class_room.visibility == 'visible_to_all' ? 'Public' : 'Private' %>
-  </span>>
+<div class="container mx-auto px-4 py-6">
   <div class="flex justify-between items-center mb-6">
-    <h1 class="text-3xl font-bold text-gray-900">
+    <h1 class="text-3xl font-bold text-gray-900 dark:text-white">
       <%= case current_user.role
           when 'admin'
             'All Classrooms'
@@ -16,55 +12,55 @@
     </h1>
     <% if current_user.can_create_class? %>
       <%= link_to 'Create New Classroom', new_class_room_path, 
-          class: 'bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded' %>
+          class: 'bg-blue-600 hover:bg-blue-700 dark:bg-blue-500 dark:hover:bg-blue-600 text-white font-medium py-2.5 px-4 rounded-lg transition-colors' %>
     <% end %>
   </div>
   <% if @class_rooms.any? %>
     <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
       <% @class_rooms.each do |class_room| %>
-        <div class="bg-white overflow-hidden shadow rounded-lg">
-          <div class="px-4 py-5 sm:p-6">
+        <div class="bg-white dark:bg-gray-800 border border-gray-200 dark:border-gray-700 rounded-lg shadow-sm hover:shadow-md transition-shadow">
+          <div class="p-6">
             <div class="flex items-center justify-between mb-4">
-              <h3 class="text-lg leading-6 font-medium text-gray-900">
+              <h3 class="text-lg font-semibold text-gray-900 dark:text-white">
                 <%= class_room.name %>
               </h3>
               <span class="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium
-                         <%= class_room.status == 'open' ? 'bg-green-100 text-green-800' : 'bg-red-100 text-red-800' %>">
+                         <%= class_room.status == 'open' ? 'bg-green-100 text-green-800 dark:bg-green-900/30 dark:text-green-400' : 'bg-red-100 text-red-800 dark:bg-red-900/30 dark:text-red-400' %>">
                 <%= class_room.status.capitalize %>
               </span>
             </div>
-            <div class="space-y-2 text-sm text-gray-600 mb-4">
-              <p><strong>Subject:</strong> <%= class_room.subject %></p>
-              <p><strong>Teacher:</strong> <%= class_room.teacher.email %></p>
-              <p><strong>Students:</strong> <%= class_room.approved_students.count %>/<%= class_room.quota %></p>
-              <p><strong>Visibility:</strong>
+            <div class="space-y-2 text-sm text-gray-600 dark:text-gray-300 mb-4">
+              <p><strong class="text-gray-900 dark:text-gray-200">Subject:</strong> <%= class_room.subject %></p>
+              <p><strong class="text-gray-900 dark:text-gray-200">Teacher:</strong> <%= class_room.teacher.email %></p>
+              <p><strong class="text-gray-900 dark:text-gray-200">Students:</strong> <%= class_room.approved_students.count %>/<%= class_room.quota %></p>
+              <p><strong class="text-gray-900 dark:text-gray-200">Visibility:</strong>
                 <span class="inline-flex items-center px-2 py-1 rounded-full text-xs font-medium
-                           <%= class_room.visibility == 'public' ? 'bg-blue-100 text-blue-800' : 'bg-purple-100 text-purple-800' %>">
-                  <%= class_room.visibility.capitalize %>
+                           <%= class_room.visible_to_all? ? 'bg-blue-100 text-blue-800 dark:bg-blue-900/30 dark:text-blue-400' : 'bg-purple-100 text-purple-800 dark:bg-purple-900/30 dark:text-purple-400' %>">
+                  <%= class_room.visible_to_all? ? 'Public' : 'Private' %>
                 </span>
               </p>
             </div>
             <% if class_room.description.present? %>
-              <p class="text-sm text-gray-700 mb-4">
+              <p class="text-sm text-gray-700 dark:text-gray-300 mb-4">
                 <%= truncate(class_room.description, length: 100) %>
               </p>
             <% end %>
             <div class="flex justify-between items-center">
               <%= link_to 'View Details', class_room, 
-                  class: 'text-blue-600 hover:text-blue-900 text-sm font-medium' %>
+                  class: 'text-blue-600 dark:text-blue-400 hover:text-blue-700 dark:hover:text-blue-300 text-sm font-medium transition-colors' %>
               <% if current_user.student? && class_room.can_join?(current_user) %>
                 <%= link_to 'Join', join_class_room_path(class_room), method: :post,
-                    class: 'bg-green-500 hover:bg-green-700 text-white font-bold py-1 px-3 rounded text-sm' %>
+                    class: 'bg-green-600 hover:bg-green-700 dark:bg-green-500 dark:hover:bg-green-600 text-white font-medium py-1.5 px-3 rounded-md text-sm transition-colors' %>
               <% elsif current_user.student? %>
                 <% case class_room.join_status_for(current_user)
                    when 'full' %>
-                  <span class="text-red-500 text-sm">Full</span>
+                  <span class="text-red-500 dark:text-red-400 text-sm font-medium">Full</span>
                 <% when 'already_joined' %>
-                  <span class="text-green-500 text-sm">Joined</span>
+                  <span class="text-green-500 dark:text-green-400 text-sm font-medium">Joined</span>
                 <% when 'pending' %>
-                  <span class="text-yellow-500 text-sm">Pending</span>
+                  <span class="text-yellow-500 dark:text-yellow-400 text-sm font-medium">Pending</span>
                 <% when 'closed' %>
-                  <span class="text-gray-500 text-sm">Closed</span>
+                  <span class="text-gray-500 dark:text-gray-400 text-sm font-medium">Closed</span>
                 <% end %>
               <% end %>
             </div>
@@ -73,8 +69,14 @@
       <% end %>
     </div>
   <% else %>
-    <div class="text-center py-12">
-      <div class="text-gray-500 text-lg">
+    <div class="text-center py-16">
+      <div class="mx-auto w-16 h-16 bg-gray-100 dark:bg-gray-700 rounded-full flex items-center justify-center mb-4">
+        <svg class="w-8 h-8 text-gray-400 dark:text-gray-500" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 21V5a2 2 0 00-2-2H7a2 2 0 00-2 2v16m14 0h2m-2 0h-5m-9 0H3m2 0h5M9 7h1m-1 4h1m4-4h1m-1 4h1m-5 10v-5a1 1 0 011-1h2a1 1 0 011 1v5m-4 0h4"></path>
+        </svg>
+      </div>
+      <h3 class="text-lg font-medium text-gray-900 dark:text-white mb-2">No classrooms found</h3>
+      <p class="text-gray-600 dark:text-gray-400 mb-6">
         <%= case current_user.role
             when 'admin'
               'No classrooms have been created yet.'
@@ -83,12 +85,10 @@
             when 'student'
               'No classrooms are available at the moment.'
             end %>
-      </div>
+      </p>
       <% if current_user.can_create_class? %>
-        <div class="mt-4">
-          <%= link_to 'Create Your First Classroom', new_class_room_path,
-              class: 'bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded' %>
-        </div>
+        <%= link_to 'Create Your First Classroom', new_class_room_path,
+            class: 'bg-blue-600 hover:bg-blue-700 dark:bg-blue-500 dark:hover:bg-blue-600 text-white font-medium py-2.5 px-4 rounded-lg transition-colors' %>
       <% end %>
     </div>
   <% end %>
