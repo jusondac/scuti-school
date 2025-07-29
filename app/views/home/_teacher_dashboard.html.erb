@@ -7,6 +7,78 @@
     </h1>
     <p class="text-gray-600 dark:text-gray-400">Here's your teaching overview for today.</p>
   </div>
+  <!-- Classroom Management -->
+  <div class="bg-white dark:bg-gray-800 rounded-lg shadow-sm border border-gray-200 dark:border-gray-700 p-6">
+    <div class="flex justify-between items-center mb-4">
+      <h2 class="text-lg font-semibold text-gray-900 dark:text-white">My Classrooms</h2>
+      <div class="space-x-2">
+        <%= link_to "Create New Class", new_class_room_path,
+            class: "bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded text-sm" %>
+        <%= link_to "Manage All", class_rooms_path, 
+            class: "text-blue-600 dark:text-blue-400 hover:text-blue-700 dark:hover:text-blue-300 text-sm font-medium" %>
+      </div>
+    </div>
+    <% if current_user.teaching_classes.any? %>
+      <% pending_approvals = current_user.teaching_classes.joins(:class_room_students).where(class_room_students: { approval_status: 'pending' }).distinct %>
+      <% if pending_approvals.any? %>
+        <div class="mb-4 p-3 bg-yellow-50 dark:bg-yellow-900/20 border border-yellow-200 dark:border-yellow-700 rounded-lg">
+          <p class="text-sm text-yellow-800 dark:text-yellow-200 mb-2">
+            <strong>Attention:</strong> You have students waiting for approval in these classrooms:
+          </p>
+          <div class="space-y-1">
+            <% pending_approvals.each do |classroom| %>
+              <% pending_count = classroom.pending_students.count %>
+              <div class="flex justify-between items-center">
+                <span class="text-sm text-yellow-700 dark:text-yellow-300"><%= classroom.name %> (<%= pluralize(pending_count, 'student') %>)</span>
+                <%= link_to "Review", classroom, class: "text-yellow-600 dark:text-yellow-400 hover:text-yellow-700 text-sm font-medium" %>
+              </div>
+            <% end %>
+          </div>
+        </div>
+      <% end %>
+      <div class="space-y-3">
+        <% current_user.teaching_classes.limit(4).each do |classroom| %>
+          <div class="flex items-center justify-between p-3 bg-gray-50 dark:bg-gray-700 rounded-lg">
+            <div class="flex-1">
+              <div class="flex items-center space-x-3">
+                <h3 class="font-medium text-gray-900 dark:text-white"><%= classroom.name %></h3>
+                <span class="inline-flex items-center px-2 py-1 rounded-full text-xs font-medium
+                           <%= classroom.status == 'open' ? 'bg-green-100 text-green-800 dark:bg-green-900/30 dark:text-green-400' : 'bg-red-100 text-red-800 dark:bg-red-900/30 dark:text-red-400' %>">
+                  <%= classroom.status.capitalize %>
+                </span>
+                <% if classroom.pending_students.any? %>
+                  <span class="inline-flex items-center px-2 py-1 rounded-full text-xs font-medium bg-yellow-100 text-yellow-800 dark:bg-yellow-900/30 dark:text-yellow-400">
+                    <%= pluralize(classroom.pending_students.count, 'pending') %>
+                  </span>
+                <% end %>
+              </div>
+              <p class="text-sm text-gray-600 dark:text-gray-400">
+                <%= classroom.subject %> • <%= classroom.approved_students.count %>/<%= classroom.quota %> students
+              </p>
+            </div>
+            <div class="flex space-x-2">
+              <%= link_to "Manage", classroom, 
+                  class: "text-blue-600 dark:text-blue-400 hover:text-blue-700 dark:hover:text-blue-300 text-sm font-medium" %>
+              <%= link_to "Edit", edit_class_room_path(classroom), 
+                  class: "text-gray-600 dark:text-gray-400 hover:text-gray-700 dark:hover:text-gray-300 text-sm font-medium" %>
+            </div>
+          </div>
+        <% end %>
+        <% if current_user.teaching_classes.count > 4 %>
+          <div class="text-center pt-2">
+            <%= link_to "View All (#{current_user.teaching_classes.count})", class_rooms_path,
+                class: "text-blue-600 dark:text-blue-400 hover:text-blue-700 dark:hover:text-blue-300 text-sm" %>
+          </div>
+        <% end %>
+      </div>
+    <% else %>
+      <div class="text-center py-8">
+        <p class="text-gray-500 dark:text-gray-400 mb-4">You haven't created any classrooms yet.</p>
+        <%= link_to "Create Your First Classroom", new_class_room_path,
+            class: "bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded" %>
+      </div>
+    <% end %>
+  </div>
   <!-- Quick Stats -->
   <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
     <div class="bg-white dark:bg-gray-800 rounded-lg shadow-sm border border-gray-200 dark:border-gray-700 p-6">

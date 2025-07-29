@@ -1,0 +1,151 @@
+<div class="container mx-auto px-4 py-8">
+  <div class="bg-white overflow-hidden shadow rounded-lg">
+    <div class="px-4 py-5 sm:p-6">
+      <div class="flex justify-between items-start mb-6">
+        <div>
+          <h1 class="text-3xl font-bold text-gray-900"><%= @class_room.name %></h1>
+          <p class="text-lg text-gray-600 mt-1"><%= @class_room.subject %></p>
+        </div>
+        <div class="flex space-x-2">
+          <span class="inline-flex items-center px-3 py-1 rounded-full text-sm font-medium
+                     <%= @class_room.status == 'open' ? 'bg-green-100 text-green-800' : 'bg-red-100 text-red-800' %>">
+            <%= @class_room.status.capitalize %>
+          </span>
+          <span class="inline-flex items-center px-3 py-1 rounded-full text-sm font-medium
+                     <%= @class_room.visibility == 'visible_to_all' ? 'bg-blue-100 text-blue-800' : 'bg-purple-100 text-purple-800' %>">
+            <%= @class_room.visibility == 'visible_to_all' ? 'Public' : 'Private' %>
+          </span>
+        </div>
+      </div>
+      <% if @class_room.description.present? %>
+        <div class="mb-6">
+          <h3 class="text-lg font-medium text-gray-900 mb-2">Description</h3>
+          <p class="text-gray-700"><%= simple_format(@class_room.description) %></p>
+        </div>
+      <% end %>
+      <div class="grid grid-cols-1 md:grid-cols-3 gap-6 mb-6">
+        <div class="bg-gray-50 p-4 rounded-lg">
+          <h4 class="text-sm font-medium text-gray-900">Teacher</h4>
+          <p class="text-lg text-gray-700"><%= @class_room.teacher.email %></p>
+        </div>
+        <div class="bg-gray-50 p-4 rounded-lg">
+          <h4 class="text-sm font-medium text-gray-900">Students</h4>
+          <p class="text-lg text-gray-700">
+            <%= @class_room.approved_students.count %> / <%= @class_room.quota %>
+          </p>
+          <div class="w-full bg-gray-200 rounded-full h-2 mt-2">
+            <div class="bg-blue-600 h-2 rounded-full" 
+                 style="width: <%= (@class_room.approved_students.count.to_f / @class_room.quota * 100).round(1) %>%"></div>
+          </div>
+        </div>
+        <div class="bg-gray-50 p-4 rounded-lg">
+          <h4 class="text-sm font-medium text-gray-900">Created</h4>
+          <p class="text-lg text-gray-700"><%= @class_room.created_at.strftime("%B %d, %Y") %></p>
+        </div>
+      </div>
+      <!-- Student Actions -->
+      <% if current_user.student? %>
+        <div class="mb-6">
+          <% case @join_status
+             when 'can_join' %>
+            <%= link_to 'Join Classroom', join_class_room_path(@class_room), method: :post,
+                class: 'bg-green-500 hover:bg-green-700 text-white font-bold py-2 px-4 rounded',
+                data: { confirm: @class_room.invite_only? ? 'Are you sure? You will need teacher approval to join this private classroom.' : 'Are you sure you want to join this classroom?' } %>
+          <% when 'pending' %>
+            <div class="bg-yellow-50 border border-yellow-200 rounded-md p-4">
+              <p class="text-yellow-800">Your join request is pending approval from the teacher.</p>
+            </div>
+          <% when 'already_joined' %>
+            <div class="bg-green-50 border border-green-200 rounded-md p-4">
+              <p class="text-green-800">You are already a member of this classroom.</p>
+            </div>
+          <% when 'full' %>
+            <div class="bg-red-50 border border-red-200 rounded-md p-4">
+              <p class="text-red-800">This classroom is full and cannot accept new students.</p>
+            </div>
+          <% when 'closed' %>
+            <div class="bg-gray-50 border border-gray-200 rounded-md p-4">
+              <p class="text-gray-800">This classroom is closed and not accepting new students.</p>
+            </div>
+          <% end %>
+        </div>
+      <% end %>
+      <!-- Teacher/Admin Actions -->
+      <% if current_user.can_approve_students?(@class_room) %>
+        <div class="mb-6">
+          <div class="flex space-x-4">
+            <%= link_to 'Edit Classroom', edit_class_room_path(@class_room),
+                class: 'bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded' %>
+            <%= link_to 'Delete Classroom', @class_room, method: :delete,
+                class: 'bg-red-500 hover:bg-red-700 text-white font-bold py-2 px-4 rounded',
+                data: { confirm: 'Are you sure? This will permanently delete the classroom and remove all students.' } %>
+          </div>
+        </div>
+      <% end %>
+      <!-- Students List -->
+      <% if can_view_students? %>
+        <div class="space-y-6">
+          <!-- Pending Students (for teachers/admin) -->
+          <% if can_manage_students? && @pending_students.any? %>
+            <div>
+              <h3 class="text-lg font-medium text-gray-900 mb-4">Pending Approval (<%= @pending_students.count %>)</h3>
+              <div class="bg-yellow-50 border border-yellow-200 rounded-md overflow-hidden">
+                <ul class="divide-y divide-yellow-200">
+                  <% @pending_students.each do |student| %>
+                    <li class="px-4 py-3 flex justify-between items-center">
+                      <div>
+                        <p class="text-sm font-medium text-gray-900"><%= student.email %></p>
+                        <p class="text-sm text-gray-500">
+                          Requested: <%= @class_room.class_room_students.find_by(user: student).requested_at&.strftime("%B %d, %Y at %I:%M %p") %>
+                        </p>
+                      </div>
+                      <div class="flex space-x-2">
+                        <%= link_to 'Approve', approve_student_class_room_path(@class_room, user_id: student.id), method: :post,
+                            class: 'bg-green-500 hover:bg-green-700 text-white font-bold py-1 px-3 rounded text-sm' %>
+                        <%= link_to 'Reject', reject_student_class_room_path(@class_room, user_id: student.id), method: :post,
+                            class: 'bg-red-500 hover:bg-red-700 text-white font-bold py-1 px-3 rounded text-sm' %>
+                      </div>
+                    </li>
+                  <% end %>
+                </ul>
+              </div>
+            </div>
+          <% end %>
+          <!-- Approved Students -->
+          <% if @approved_students.any? %>
+            <div>
+              <h3 class="text-lg font-medium text-gray-900 mb-4">Students (<%= @approved_students.count %>)</h3>
+              <div class="bg-white border border-gray-200 rounded-md overflow-hidden">
+                <ul class="divide-y divide-gray-200">
+                  <% @approved_students.each do |student| %>
+                    <li class="px-4 py-3 flex justify-between items-center">
+                      <div>
+                        <p class="text-sm font-medium text-gray-900"><%= student.email %></p>
+                        <p class="text-sm text-gray-500">
+                          Joined: <%= @class_room.class_room_students.find_by(user: student).approved_at&.strftime("%B %d, %Y") %>
+                        </p>
+                      </div>
+                      <% if can_manage_students? %>
+                        <%= link_to 'Remove', reject_student_class_room_path(@class_room, user_id: student.id), method: :post,
+                            class: 'bg-red-500 hover:bg-red-700 text-white font-bold py-1 px-3 rounded text-sm',
+                            data: { confirm: 'Are you sure you want to remove this student from the classroom?' } %>
+                      <% end %>
+                    </li>
+                  <% end %>
+                </ul>
+              </div>
+            </div>
+          <% else %>
+            <div class="text-center py-8">
+              <p class="text-gray-500">No students have joined this classroom yet.</p>
+            </div>
+          <% end %>
+        </div>
+      <% end %>
+    </div>
+  </div>
+  <div class="mt-6">
+    <%= link_to 'Back to Classrooms', class_rooms_path,
+        class: 'text-blue-600 hover:text-blue-900 font-medium' %>
+  </div>
+</div>

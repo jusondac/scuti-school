@@ -21,18 +21,18 @@
         <% if user_signed_in? %>
           <!-- Role-based navigation -->
           <% if current_user.student? %>
-            <%= link_to "Dashboard", "#", class: "text-gray-600 dark:text-gray-300 hover:text-indigo-600 dark:hover:text-indigo-400 transition-colors font-medium" %>
-            <%= link_to "Courses", "#", class: "text-gray-600 dark:text-gray-300 hover:text-indigo-600 dark:hover:text-indigo-400 transition-colors font-medium" %>
+            <%= link_to "Dashboard", root_path, class: "text-gray-600 dark:text-gray-300 hover:text-indigo-600 dark:hover:text-indigo-400 transition-colors font-medium" %>
+            <%= link_to "Classrooms", class_rooms_path, class: "text-gray-600 dark:text-gray-300 hover:text-indigo-600 dark:hover:text-indigo-400 transition-colors font-medium" %>
             <%= link_to "Assignments", "#", class: "text-gray-600 dark:text-gray-300 hover:text-indigo-600 dark:hover:text-indigo-400 transition-colors font-medium" %>
           <% elsif current_user.teacher? %>
-            <%= link_to "Dashboard", "#", class: "text-gray-600 dark:text-gray-300 hover:text-indigo-600 dark:hover:text-indigo-400 transition-colors font-medium" %>
-            <%= link_to "Classes", "#", class: "text-gray-600 dark:text-gray-300 hover:text-indigo-600 dark:hover:text-indigo-400 transition-colors font-medium" %>
+            <%= link_to "Dashboard", root_path, class: "text-gray-600 dark:text-gray-300 hover:text-indigo-600 dark:hover:text-indigo-400 transition-colors font-medium" %>
+            <%= link_to "My Classes", class_rooms_path, class: "text-gray-600 dark:text-gray-300 hover:text-indigo-600 dark:hover:text-indigo-400 transition-colors font-medium" %>
             <%= link_to "Students", "#", class: "text-gray-600 dark:text-gray-300 hover:text-indigo-600 dark:hover:text-indigo-400 transition-colors font-medium" %>
             <%= link_to "Grade Book", "#", class: "text-gray-600 dark:text-gray-300 hover:text-indigo-600 dark:hover:text-indigo-400 transition-colors font-medium" %>
           <% elsif current_user.admin? %>
-            <%= link_to "Dashboard", "#", class: "text-gray-600 dark:text-gray-300 hover:text-indigo-600 dark:hover:text-indigo-400 transition-colors font-medium" %>
+            <%= link_to "Dashboard", root_path, class: "text-gray-600 dark:text-gray-300 hover:text-indigo-600 dark:hover:text-indigo-400 transition-colors font-medium" %>
+            <%= link_to "Classrooms", class_rooms_path, class: "text-gray-600 dark:text-gray-300 hover:text-indigo-600 dark:hover:text-indigo-400 transition-colors font-medium" %>
             <%= link_to "Users", "#", class: "text-gray-600 dark:text-gray-300 hover:text-indigo-600 dark:hover:text-indigo-400 transition-colors font-medium" %>
-            <%= link_to "School Mgmt", "#", class: "text-gray-600 dark:text-gray-300 hover:text-indigo-600 dark:hover:text-indigo-400 transition-colors font-medium" %>
             <%= link_to "Analytics", "#", class: "text-gray-600 dark:text-gray-300 hover:text-indigo-600 dark:hover:text-indigo-400 transition-colors font-medium" %>
           <% end %>
         <% else %>

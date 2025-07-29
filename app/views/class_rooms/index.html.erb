@@ -1,0 +1,95 @@
+<div class="container mx-auto px-4               <p><strong>Visibility:</strong>
+  <span class="inline-flex items-center px-2 py-1 rounded-full text-xs font-medium
+                           <%= class_room.visibility == 'visible_to_all' ? 'bg-blue-100 text-blue-800' : 'bg-purple-100 text-purple-800' %>">
+    <%= class_room.visibility == 'visible_to_all' ? 'Public' : 'Private' %>
+  </span>>
+  <div class="flex justify-between items-center mb-6">
+    <h1 class="text-3xl font-bold text-gray-900">
+      <%= case current_user.role
+          when 'admin'
+            'All Classrooms'
+          when 'teacher'
+            'My Classrooms'
+          when 'student'
+            'Available Classrooms'
+          end %>
+    </h1>
+    <% if current_user.can_create_class? %>
+      <%= link_to 'Create New Classroom', new_class_room_path, 
+          class: 'bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded' %>
+    <% end %>
+  </div>
+  <% if @class_rooms.any? %>
+    <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+      <% @class_rooms.each do |class_room| %>
+        <div class="bg-white overflow-hidden shadow rounded-lg">
+          <div class="px-4 py-5 sm:p-6">
+            <div class="flex items-center justify-between mb-4">
+              <h3 class="text-lg leading-6 font-medium text-gray-900">
+                <%= class_room.name %>
+              </h3>
+              <span class="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium
+                         <%= class_room.status == 'open' ? 'bg-green-100 text-green-800' : 'bg-red-100 text-red-800' %>">
+                <%= class_room.status.capitalize %>
+              </span>
+            </div>
+            <div class="space-y-2 text-sm text-gray-600 mb-4">
+              <p><strong>Subject:</strong> <%= class_room.subject %></p>
+              <p><strong>Teacher:</strong> <%= class_room.teacher.email %></p>
+              <p><strong>Students:</strong> <%= class_room.approved_students.count %>/<%= class_room.quota %></p>
+              <p><strong>Visibility:</strong>
+                <span class="inline-flex items-center px-2 py-1 rounded-full text-xs font-medium
+                           <%= class_room.visibility == 'public' ? 'bg-blue-100 text-blue-800' : 'bg-purple-100 text-purple-800' %>">
+                  <%= class_room.visibility.capitalize %>
+                </span>
+              </p>
+            </div>
+            <% if class_room.description.present? %>
+              <p class="text-sm text-gray-700 mb-4">
+                <%= truncate(class_room.description, length: 100) %>
+              </p>
+            <% end %>
+            <div class="flex justify-between items-center">
+              <%= link_to 'View Details', class_room, 
+                  class: 'text-blue-600 hover:text-blue-900 text-sm font-medium' %>
+              <% if current_user.student? && class_room.can_join?(current_user) %>
+                <%= link_to 'Join', join_class_room_path(class_room), method: :post,
+                    class: 'bg-green-500 hover:bg-green-700 text-white font-bold py-1 px-3 rounded text-sm' %>
+              <% elsif current_user.student? %>
+                <% case class_room.join_status_for(current_user)
+                   when 'full' %>
+                  <span class="text-red-500 text-sm">Full</span>
+                <% when 'already_joined' %>
+                  <span class="text-green-500 text-sm">Joined</span>
+                <% when 'pending' %>
+                  <span class="text-yellow-500 text-sm">Pending</span>
+                <% when 'closed' %>
+                  <span class="text-gray-500 text-sm">Closed</span>
+                <% end %>
+              <% end %>
+            </div>
+          </div>
+        </div>
+      <% end %>
+    </div>
+  <% else %>
+    <div class="text-center py-12">
+      <div class="text-gray-500 text-lg">
+        <%= case current_user.role
+            when 'admin'
+              'No classrooms have been created yet.'
+            when 'teacher'
+              'You haven\'t created any classrooms yet.'
+            when 'student'
+              'No classrooms are available at the moment.'
+            end %>
+      </div>
+      <% if current_user.can_create_class? %>
+        <div class="mt-4">
+          <%= link_to 'Create Your First Classroom', new_class_room_path,
+              class: 'bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded' %>
+        </div>
+      <% end %>
+    </div>
+  <% end %>
+</div>
