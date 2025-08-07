@@ -1,52 +1,53 @@
-<div class="min-h-screen bg-gray-50 dark:bg-gray-900 py-12 px-4 sm:px-6 lg:px-8">
-  <div class="max-w-3xl mx-auto">
+<div class="container mx-auto px-6 py-8">
+  <div class="max-w-4xl mx-auto">
     <!-- Header Section -->
-    <div class="text-center mb-8">
-      <div class="inline-flex items-center justify-center w-16 h-16 bg-gradient-to-br from-indigo-500 to-purple-600 rounded-2xl mb-4">
-        <svg class="w-8 h-8 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M11 5H6a2 2 0 00-2 2v11a2 2 0 002 2h11a2 2 0 002-2v-5m-1.414-9.414a2 2 0 112.828 2.828L11.828 15H9v-2.828l8.586-8.586z"></path>
-        </svg>
+    <div class="bg-white dark:bg-gray-800 p-6 mb-6">
+      <div class="flex items-center">
+        <div class="w-12 h-12 bg-indigo-500 flex items-center justify-center mr-4">
+          <svg class="w-6 h-6 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M11 5H6a2 2 0 00-2 2v11a2 2 0 002 2h11a2 2 0 002-2v-5m-1.414-9.414a2 2 0 112.828 2.828L11.828 15H9v-2.828l8.586-8.586z"></path>
+          </svg>
+        </div>
+        <div>
+          <h1 class="text-2xl font-light text-gray-800 dark:text-white">Edit Classroom</h1>
+          <p class="text-sm text-gray-600 dark:text-gray-400">
+            Update your classroom settings and enrollment options
+          </p>
+        </div>
       </div>
-      <h1 class="text-4xl font-bold text-gray-900 dark:text-white mb-2">Edit Classroom</h1>
-      <p class="text-lg text-gray-600 dark:text-gray-400 max-w-2xl mx-auto">
-        Update your classroom settings and manage enrollment options.
-      </p>
     </div>
-    <!-- Form Card -->
-    <div class="bg-white dark:bg-gray-800 rounded-3xl shadow-xl border border-gray-100 dark:border-gray-700 overflow-hidden">
-      <%= form_with model: @class_room, local: true, class: "p-8 space-y-8" do |form| %>
+    <!-- Form Section -->
+    <div class="bg-white dark:bg-gray-800">
+      <%= form_with model: @class_room, local: true, class: "p-8" do |form| %>
         <!-- Error Messages -->
         <% if @class_room.errors.any? %>
-          <div class="bg-red-50 dark:bg-red-900/20 border-l-4 border-red-400 dark:border-red-500 p-6 rounded-lg">
-            <div class="flex items-start">
+          <div class="bg-red-100 dark:bg-red-900/30 border-l-4 border-red-500 p-4 mb-6">
+            <div class="flex">
               <div class="flex-shrink-0">
-                <svg class="w-5 h-5 text-red-400 dark:text-red-500" fill="currentColor" viewBox="0 0 20 20">
+                <svg class="w-5 h-5 text-red-500" fill="currentColor" viewBox="0 0 20 20">
                   <path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zM8.707 7.293a1 1 0 00-1.414 1.414L8.586 10l-1.293 1.293a1 1 0 101.414 1.414L10 11.414l1.293 1.293a1 1 0 001.414-1.414L11.414 10l1.293-1.293a1 1 0 00-1.414-1.414L10 8.586 8.707 7.293z" clip-rule="evenodd"></path>
                 </svg>
               </div>
               <div class="ml-3">
-                <h3 class="text-base font-semibold text-red-800 dark:text-red-200">
+                <h3 class="text-sm font-medium text-red-800 dark:text-red-200">
                   Please fix the following <%= pluralize(@class_room.errors.count, "error") %>:
                 </h3>
-                <ul class="mt-2 text-sm text-red-700 dark:text-red-300 space-y-1">
+                <ul class="mt-2 text-sm text-red-700 dark:text-red-300">
                   <% @class_room.errors.full_messages.each do |message| %>
-                    <li class="flex items-center">
-                      <span class="w-1 h-1 bg-red-400 dark:bg-red-500 rounded-full mr-2"></span>
-                      <%= message %>
-                    </li>
+                    <li>• <%= message %></li>
                   <% end %>
                 </ul>
               </div>
             </div>
           </div>
         <% end %>
-        <!-- Current Info Banner -->
-        <div class="bg-blue-50 dark:bg-blue-900/20 border border-blue-200 dark:border-blue-700 rounded-xl p-4">
-          <div class="flex items-center">
-            <svg class="w-5 h-5 text-blue-500 mr-3" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+        <!-- Current Info -->
+        <div class="bg-blue-100 dark:bg-blue-900/30 border-l-4 border-blue-500 p-4 mb-6">
+          <div class="flex">
+            <svg class="w-5 h-5 text-blue-500 mr-3 mt-0.5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
               <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 16h-1v-4h-1m1-4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z"></path>
             </svg>
-            <div class="text-sm text-blue-700 dark:text-blue-300">
+            <div class="text-sm text-blue-800 dark:text-blue-200">
               <span class="font-medium">Currently enrolled:</span>
               <%= @class_room.approved_students.count %> out of <%= @class_room.quota %> students
               <% if @class_room.pending_students.any? %>
@@ -55,232 +56,89 @@
             </div>
           </div>
         </div>
-        <!-- Form Grid -->
-        <div class="grid grid-cols-1 lg:grid-cols-2 gap-8">
+        <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
           <!-- Left Column -->
           <div class="space-y-6">
             <!-- Classroom Name -->
-            <div class="group">
-              <%= form.label :name, class: "block text-sm font-semibold text-gray-900 dark:text-gray-100 mb-3" do %>
-                <span class="flex items-center">
-                  <svg class="w-4 h-4 mr-2 text-blue-500" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M7 7h.01M7 3h5c.512 0 1.024.195 1.414.586l7 7a2 2 0 010 2.828l-7 7a2 2 0 01-2.828 0l-7-7A1.994 1.994 0 013 12V7a4 4 0 014-4z"></path>
-                  </svg>
-                  Classroom Name
-                </span>
-              <% end %>
+            <div>
+              <%= form.label :name, "CLASSROOM NAME", class: "block text-xs font-medium text-gray-500 dark:text-gray-400 uppercase tracking-wide mb-2" %>
               <%= form.text_field :name, 
-                  class: "w-full px-4 py-4 bg-gray-50 dark:bg-gray-700 border-0 rounded-2xl text-gray-900 dark:text-gray-100 placeholder-gray-500 dark:placeholder-gray-400 focus:bg-white dark:focus:bg-gray-600 focus:ring-4 focus:ring-blue-500/20 dark:focus:ring-blue-400/20 transition-all duration-200" %>
+                  class: "w-full px-4 py-3 bg-gray-50 dark:bg-gray-700 border-0 text-gray-900 dark:text-gray-100 placeholder-gray-500 dark:placeholder-gray-400 focus:bg-white dark:focus:bg-gray-600 focus:outline-none focus:ring-2 focus:ring-indigo-500 transition-colors" %>
             </div>
             <!-- Subject -->
-            <div class="group">
-              <%= form.label :subject, class: "block text-sm font-semibold text-gray-900 dark:text-gray-100 mb-3" do %>
-                <span class="flex items-center">
-                  <svg class="w-4 h-4 mr-2 text-green-500" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 6.253v13m0-13C10.832 5.477 9.246 5 7.5 5S4.168 5.477 3 6.253v13C4.168 18.477 5.754 18 7.5 18s3.332.477 4.5 1.253m0-13C13.168 5.477 14.754 5 16.5 5c1.746 0 3.332.477 4.5 1.253v13C19.832 18.477 18.246 18 16.5 18c-1.746 0-3.332.477-4.5 1.253"></path>
-                  </svg>
-                  Subject
-                </span>
-              <% end %>
+            <div>
+              <%= form.label :subject, "SUBJECT", class: "block text-xs font-medium text-gray-500 dark:text-gray-400 uppercase tracking-wide mb-2" %>
               <%= form.text_field :subject, 
-                  class: "w-full px-4 py-4 bg-gray-50 dark:bg-gray-700 border-0 rounded-2xl text-gray-900 dark:text-gray-100 placeholder-gray-500 dark:placeholder-gray-400 focus:bg-white dark:focus:bg-gray-600 focus:ring-4 focus:ring-green-500/20 dark:focus:ring-green-400/20 transition-all duration-200" %>
+                  class: "w-full px-4 py-3 bg-gray-50 dark:bg-gray-700 border-0 text-gray-900 dark:text-gray-100 placeholder-gray-500 dark:placeholder-gray-400 focus:bg-white dark:focus:bg-gray-600 focus:outline-none focus:ring-2 focus:ring-indigo-500 transition-colors" %>
             </div>
             <!-- Quota -->
-            <div class="group">
-              <%= form.label :quota, class: "block text-sm font-semibold text-gray-900 dark:text-gray-100 mb-3" do %>
-                <span class="flex items-center">
-                  <svg class="w-4 h-4 mr-2 text-purple-500" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 20h5v-2a3 3 0 00-5.356-1.857M17 20H7m10 0v-2c0-.656-.126-1.283-.356-1.857M7 20H2v-2a3 3 0 015.356-1.857M7 20v-2c0-.656.126-1.283.356-1.857m0 0a5.002 5.002 0 019.288 0M15 7a3 3 0 11-6 0 3 3 0 016 0zm6 3a2 2 0 11-4 0 2 2 0 014 0zM7 10a2 2 0 11-4 0 2 2 0 014 0z"></path>
-                  </svg>
-                  Student Capacity
-                </span>
-              <% end %>
+            <div>
+              <%= form.label :quota, "STUDENT CAPACITY", class: "block text-xs font-medium text-gray-500 dark:text-gray-400 uppercase tracking-wide mb-2" %>
               <%= form.number_field :quota, 
                   min: 1, max: 100, 
-                  class: "w-full px-4 py-4 bg-gray-50 dark:bg-gray-700 border-0 rounded-2xl text-gray-900 dark:text-gray-100 placeholder-gray-500 dark:placeholder-gray-400 focus:bg-white dark:focus:bg-gray-600 focus:ring-4 focus:ring-purple-500/20 dark:focus:ring-purple-400/20 transition-all duration-200" %>
+                  class: "w-full px-4 py-3 bg-gray-50 dark:bg-gray-700 border-0 text-gray-900 dark:text-gray-100 placeholder-gray-500 dark:placeholder-gray-400 focus:bg-white dark:focus:bg-gray-600 focus:outline-none focus:ring-2 focus:ring-indigo-500 transition-colors" %>
               <% if @class_room.approved_students.count > 0 %>
-                <div class="mt-2 text-sm text-orange-600 dark:text-orange-400 flex items-center">
-                  <svg class="w-4 h-4 mr-1" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 9v2m0 4h.01m-6.938 4h13.856c1.54 0 2.502-1.667 1.732-2.5L13.732 4c-.77-.833-1.732-.833-2.5 0L3.732 16.5c-.77.833.192 2.5 1.732 2.5z"></path>
-                  </svg>
-                  <span class="font-medium"><%= @class_room.approved_students.count %></span> students currently enrolled. 
-                  Setting quota below this number may cause issues.
+                <div class="mt-1 text-xs text-orange-600 dark:text-orange-400">
+                  <%= @class_room.approved_students.count %> students currently enrolled. 
+                  Setting quota below this may cause issues.
                 </div>
               <% else %>
-                <p class="mt-2 text-sm text-gray-500 dark:text-gray-400 flex items-center">
-                  <svg class="w-4 h-4 mr-1" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 16h-1v-4h-1m1-4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z"></path>
-                  </svg>
-                  Maximum number of students (1-100)
-                </p>
+                <p class="mt-1 text-xs text-gray-500 dark:text-gray-400">Maximum number of students (1-100)</p>
               <% end %>
             </div>
           </div>
           <!-- Right Column -->
           <div class="space-y-6">
             <!-- Visibility -->
-            <div class="group">
-              <%= form.label :visibility, class: "block text-sm font-semibold text-gray-900 dark:text-gray-100 mb-3" do %>
-                <span class="flex items-center">
-                  <svg class="w-4 h-4 mr-2 text-indigo-500" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 12a3 3 0 11-6 0 3 3 0 016 0z"></path>
-                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M2.458 12C3.732 7.943 7.523 5 12 5c4.478 0 8.268 2.943 9.542 7-1.274 4.057-5.064 7-9.542 7-4.477 0-8.268-2.943-9.542-7z"></path>
-                  </svg>
-                  Visibility
-                </span>
-              <% end %>
-              <div class="relative">
-                <%= form.select :visibility, 
-                    options_for_select([
-                      ['🌐 Public - Anyone can join', 'visible_to_all'],
-                      ['🔒 Private - Requires approval', 'invite_only']
-                    ], @class_room.visibility), 
-                    {}, 
-                    { class: "w-full px-4 py-4 bg-gray-50 dark:bg-gray-700 border-0 rounded-2xl text-gray-900 dark:text-gray-100 focus:bg-white dark:focus:bg-gray-600 focus:ring-4 focus:ring-indigo-500/20 dark:focus:ring-indigo-400/20 transition-all duration-200 appearance-none cursor-pointer" } %>
-                <svg class="absolute right-4 top-1/2 transform -translate-y-1/2 w-5 h-5 text-gray-400 pointer-events-none" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                  <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"></path>
-                </svg>
-              </div>
+            <div>
+              <%= form.label :visibility, "VISIBILITY", class: "block text-xs font-medium text-gray-500 dark:text-gray-400 uppercase tracking-wide mb-2" %>
+              <%= form.select :visibility, 
+                  options_for_select([
+                    ['Public - Anyone can join', 'visible_to_all'],
+                    ['Private - Requires approval', 'invite_only']
+                  ], @class_room.visibility), 
+                  {}, 
+                  { class: "w-full px-4 py-3 bg-gray-50 dark:bg-gray-700 border-0 text-gray-900 dark:text-gray-100 focus:bg-white dark:focus:bg-gray-600 focus:outline-none focus:ring-2 focus:ring-indigo-500 transition-colors appearance-none" } %>
             </div>
             <!-- Status -->
-            <div class="group">
-              <%= form.label :status, class: "block text-sm font-semibold text-gray-900 dark:text-gray-100 mb-3" do %>
-                <span class="flex items-center">
-                  <svg class="w-4 h-4 mr-2 text-orange-500" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z"></path>
-                  </svg>
-                  Status
-                </span>
-              <% end %>
-              <div class="relative">
-                <%= form.select :status, 
-                    options_for_select([
-                      ['✅ Open - Students can join', 'open'],
-                      ['🚫 Closed - No new students', 'closed']
-                    ], @class_room.status), 
-                    {}, 
-                    { class: "w-full px-4 py-4 bg-gray-50 dark:bg-gray-700 border-0 rounded-2xl text-gray-900 dark:text-gray-100 focus:bg-white dark:focus:bg-gray-600 focus:ring-4 focus:ring-orange-500/20 dark:focus:ring-orange-400/20 transition-all duration-200 appearance-none cursor-pointer" } %>
-                <svg class="absolute right-4 top-1/2 transform -translate-y-1/2 w-5 h-5 text-gray-400 pointer-events-none" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                  <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"></path>
-                </svg>
-              </div>
+            <div>
+              <%= form.label :status, "STATUS", class: "block text-xs font-medium text-gray-500 dark:text-gray-400 uppercase tracking-wide mb-2" %>
+              <%= form.select :status, 
+                  options_for_select([
+                    ['Open - Students can join', 'open'],
+                    ['Closed - No new students', 'closed']
+                  ], @class_room.status), 
+                  {}, 
+                  { class: "w-full px-4 py-3 bg-gray-50 dark:bg-gray-700 border-0 text-gray-900 dark:text-gray-100 focus:bg-white dark:focus:bg-gray-600 focus:outline-none focus:ring-2 focus:ring-indigo-500 transition-colors appearance-none" } %>
             </div>
           </div>
         </div>
         <!-- Description (Full Width) -->
-        <div class="group">
-          <%= form.label :description, class: "block text-sm font-semibold text-gray-900 dark:text-gray-100 mb-3" do %>
-            <span class="flex items-center">
-              <svg class="w-4 h-4 mr-2 text-teal-500" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z"></path>
-              </svg>
-              Description <span class="text-gray-500 dark:text-gray-400 font-normal">(Optional)</span>
-            </span>
-          <% end %>
+        <div class="mt-6">
+          <%= form.label :description, "DESCRIPTION (OPTIONAL)", class: "block text-xs font-medium text-gray-500 dark:text-gray-400 uppercase tracking-wide mb-2" %>
           <%= form.text_area :description, 
               rows: 4, 
-              placeholder: "Describe what students will learn in this classroom, learning objectives, or any special requirements...", 
-              class: "w-full px-4 py-4 bg-gray-50 dark:bg-gray-700 border-0 rounded-2xl text-gray-900 dark:text-gray-100 placeholder-gray-500 dark:placeholder-gray-400 focus:bg-white dark:focus:bg-gray-600 focus:ring-4 focus:ring-teal-500/20 dark:focus:ring-teal-400/20 transition-all duration-200 resize-none" %>
+              placeholder: "Describe what students will learn in this classroom...", 
+              class: "w-full px-4 py-3 bg-gray-50 dark:bg-gray-700 border-0 text-gray-900 dark:text-gray-100 placeholder-gray-500 dark:placeholder-gray-400 focus:bg-white dark:focus:bg-gray-600 focus:outline-none focus:ring-2 focus:ring-indigo-500 transition-colors resize-none" %>
         </div>
         <!-- Action Buttons -->
-        <div class="flex flex-col sm:flex-row gap-4 pt-6">
-          <%= link_to @class_room, 
-              class: "flex-1 px-6 py-4 bg-gray-100 dark:bg-gray-700 hover:bg-gray-200 dark:hover:bg-gray-600 text-gray-700 dark:text-gray-300 font-semibold rounded-2xl transition-all duration-200 text-center border-0 focus:ring-4 focus:ring-gray-500/20" do %>
-            <span class="flex items-center justify-center">
-              <svg class="w-5 h-5 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"></path>
-              </svg>
-              Cancel
-            </span>
-          <% end %>
-          <%= form.submit "Update Classroom", 
-              class: "flex-1 px-6 py-4 bg-gradient-to-r from-indigo-500 to-purple-600 hover:from-indigo-600 hover:to-purple-700 text-white font-semibold rounded-2xl transition-all duration-200 shadow-lg hover:shadow-xl focus:ring-4 focus:ring-indigo-500/30 border-0 cursor-pointer" %>
+        <div class="flex space-x-4 mt-8">
+          <%= link_to 'CANCEL', @class_room, 
+              class: "flex-1 px-6 py-3 bg-gray-200 dark:bg-gray-600 hover:bg-gray-300 dark:hover:bg-gray-500 text-gray-800 dark:text-gray-200 font-medium text-center text-sm uppercase tracking-wide transition-colors" %>
+          <%= form.submit "UPDATE CLASSROOM", 
+              class: "flex-1 px-6 py-3 bg-indigo-500 hover:bg-indigo-600 text-white font-medium text-sm uppercase tracking-wide transition-colors cursor-pointer border-0" %>
         </div>
       <% end %>
     </div>
     <!-- Back Link -->
-    <div class="text-center mt-8">
+    <div class="text-center mt-6">
       <%= link_to @class_room, 
-          class: "inline-flex items-center text-gray-600 dark:text-gray-400 hover:text-gray-900 dark:hover:text-gray-100 transition-colors duration-200" do %>
+          class: "inline-flex items-center text-gray-600 dark:text-gray-400 hover:text-gray-900 dark:hover:text-gray-100 transition-colors" do %>
         <svg class="w-4 h-4 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
           <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 19l-7-7 7-7"></path>
         </svg>
-        Back to Classroom
+        BACK TO CLASSROOM
       <% end %>
     </div>
   </div>
-</div>
-<div class="mb-6">
-  <h1 class="text-3xl font-bold text-gray-900">Edit Classroom</h1>
-  <p class="text-gray-600 mt-2">Update your classroom settings</p>
-</div>
-<%= form_with model: @class_room, local: true, class: "space-y-6" do |form| %>
-  <% if @class_room.errors.any? %>
-    <div class="bg-red-50 border border-red-200 rounded-md p-4">
-      <div class="flex">
-        <div class="ml-3">
-          <h3 class="text-sm font-medium text-red-800">
-            <%= pluralize(@class_room.errors.count, "error") %> prohibited this classroom from being saved:
-          </h3>
-          <div class="mt-2 text-sm text-red-700">
-            <ul class="list-disc pl-5">
-              <% @class_room.errors.full_messages.each do |message| %>
-                <li><%= message %></li>
-              <% end %>
-            </ul>
-          </div>
-        </div>
-      </div>
-    </div>
-  <% end %>
-  <div>
-    <%= form.label :name, class: "block text-sm font-medium text-gray-700" %>
-    <%= form.text_field :name, class: "mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-blue-500 focus:ring-blue-500" %>
-  </div>
-  <div>
-    <%= form.label :subject, class: "block text-sm font-medium text-gray-700" %>
-    <%= form.text_field :subject, class: "mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-blue-500 focus:ring-blue-500" %>
-  </div>
-  <div>
-    <%= form.label :description, class: "block text-sm font-medium text-gray-700" %>
-    <%= form.text_area :description, rows: 4, class: "mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-blue-500 focus:ring-blue-500" %>
-  </div>
-  <div>
-    <%= form.label :quota, class: "block text-sm font-medium text-gray-700" %>
-    <%= form.number_field :quota, min: 1, max: 100, class: "mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-blue-500 focus:ring-blue-500" %>
-    <p class="mt-1 text-sm text-gray-500">Maximum number of students (1-100)</p>
-    <% if @class_room.approved_students.count > 0 %>
-      <p class="mt-1 text-sm text-orange-600">
-        Note: <%= @class_room.approved_students.count %> students are currently enrolled. 
-        Setting quota below this number may cause issues.
-      </p>
-    <% end %>
-  </div>
-  <div>
-    <%= form.label :visibility, class: "block text-sm font-medium text-gray-700" %>
-    <%= form.select :visibility, 
-          options_for_select([
-            ['Public - Anyone can join', 'visible_to_all'],
-            ['Private - Requires approval', 'invite_only']
-          ], @class_room.visibility), 
-          {}, 
-          { class: "mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-blue-500 focus:ring-blue-500" } %>
-  </div>
-  <div>
-    <%= form.label :status, class: "block text-sm font-medium text-gray-700" %>
-    <%= form.select :status, 
-          options_for_select([
-            ['Open - Students can join', 'open'],
-            ['Closed - No new students', 'closed']
-          ], @class_room.status), 
-          {}, 
-          { class: "mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-blue-500 focus:ring-blue-500" } %>
-  </div>
-  <div class="flex justify-end space-x-4">
-    <%= link_to 'Cancel', @class_room, 
-          class: "px-4 py-2 border border-gray-300 rounded-md shadow-sm text-sm font-medium text-gray-700 bg-white hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500" %>
-    <%= form.submit "Update Classroom", 
-          class: "px-4 py-2 border border-transparent rounded-md shadow-sm text-sm font-medium text-white bg-blue-600 hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500" %>
-  </div>
-<% end %>
 </div>
