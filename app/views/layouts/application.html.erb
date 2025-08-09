@@ -29,6 +29,7 @@
     <%= render 'shared/header' unless content_for?(:no_header) %>
     <%= render 'shared/sidebar' if user_signed_in? && !content_for?(:no_header) %>
     <main class="<%= user_signed_in? && !content_for?(:no_header) ? 'lg:ml-64 pt-4' : '' %> <%= content_for?(:no_container) ? '' : 'container mx-auto px-4 sm:px-6 lg:px-8' %>">
+      <!--- render all the main --->
       <%= yield %>
     </main>
     <%= render 'shared/footer' unless content_for?(:no_footer) %>
