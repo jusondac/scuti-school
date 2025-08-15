@@ -5,6 +5,8 @@ class ClassRoomsController < ApplicationController
   before_action :check_class_owner_or_admin, only: [ :edit, :update, :destroy, :approve_student, :reject_student ]
   before_action :check_admin_or_member, only: [ :show ]
 
+  helper_method :can_manage_students?, :can_view_students?
+
   def index
     @class_rooms = case current_user.role
     when "admin"

@@ -1,46 +1,57 @@
 <div class="container mx-auto px-4 py-8">
-  <div class="bg-white overflow-hidden shadow rounded-lg">
+  <div class="bg-white dark:bg-gray-800 overflow-hidden rounded-lg border border-gray-200 dark:border-gray-700">
     <div class="px-4 py-5 sm:p-6">
       <div class="flex justify-between items-start mb-6">
-        <div>
-          <h1 class="text-3xl font-bold text-gray-900"><%= @class_room.name %></h1>
-          <p class="text-lg text-gray-600 mt-1"><%= @class_room.subject %></p>
+        <div class="flex-1">
+          <h1 class="text-3xl font-bold text-gray-900 dark:text-white"><%= @class_room.name %></h1>
+          <p class="text-lg text-gray-600 dark:text-gray-300 mt-1"><%= @class_room.subject %></p>
+          <div class="mt-3 flex items-center space-x-2">
+            <input type="text" 
+                   id="classroom-url" 
+                   value="<%= class_room_url(@class_room) %>" 
+                   readonly
+                   class="text-sm bg-gray-50 dark:bg-gray-700 border border-gray-200 dark:border-gray-600 rounded-lg px-3 py-1 text-gray-600 dark:text-gray-300 font-mono w-64">
+            <button onclick="copyClassroomUrl()" 
+                    class="bg-gray-500 hover:bg-gray-600 dark:bg-gray-600 dark:hover:bg-gray-700 text-white font-medium py-1 px-3 rounded-lg text-sm transition-colors">
+              Copy Link
+            </button>
+          </div>
         </div>
         <div class="flex space-x-2">
-          <span class="inline-flex items-center px-3 py-1 rounded-full text-sm font-medium
-                     <%= @class_room.status == 'open' ? 'bg-green-100 text-green-800' : 'bg-red-100 text-red-800' %>">
+          <span class="inline-flex items-center px-3 py-1 rounded-lg text-sm font-medium border
+                     <%= @class_room.status == 'open' ? 'bg-green-50 dark:bg-green-900/20 text-green-700 dark:text-green-300 border-green-200 dark:border-green-700' : 'bg-red-50 dark:bg-red-900/20 text-red-700 dark:text-red-300 border-red-200 dark:border-red-700' %>">
             <%= @class_room.status.capitalize %>
           </span>
-          <span class="inline-flex items-center px-3 py-1 rounded-full text-sm font-medium
-                     <%= @class_room.visibility == 'visible_to_all' ? 'bg-blue-100 text-blue-800' : 'bg-purple-100 text-purple-800' %>">
+          <span class="inline-flex items-center px-3 py-1 rounded-lg text-sm font-medium border
+                     <%= @class_room.visibility == 'visible_to_all' ? 'bg-blue-50 dark:bg-blue-900/20 text-blue-700 dark:text-blue-300 border-blue-200 dark:border-blue-700' : 'bg-purple-50 dark:bg-purple-900/20 text-purple-700 dark:text-purple-300 border-purple-200 dark:border-purple-700' %>">
             <%= @class_room.visibility == 'visible_to_all' ? 'Public' : 'Private' %>
           </span>
         </div>
       </div>
       <% if @class_room.description.present? %>
         <div class="mb-6">
-          <h3 class="text-lg font-medium text-gray-900 mb-2">Description</h3>
-          <p class="text-gray-700"><%= simple_format(@class_room.description) %></p>
+          <h3 class="text-lg font-medium text-gray-900 dark:text-white mb-2">Description</h3>
+          <p class="text-gray-700 dark:text-gray-300"><%= @class_room.description %></p>
         </div>
       <% end %>
       <div class="grid grid-cols-1 md:grid-cols-3 gap-6 mb-6">
-        <div class="bg-gray-50 p-4 rounded-lg">
-          <h4 class="text-sm font-medium text-gray-900">Teacher</h4>
-          <p class="text-lg text-gray-700"><%= @class_room.teacher.email %></p>
+        <div class="bg-gray-50 dark:bg-gray-700 p-4 rounded-lg border border-gray-200 dark:border-gray-600">
+          <h4 class="text-sm font-medium text-gray-900 dark:text-white">Teacher</h4>
+          <p class="text-lg text-gray-700 dark:text-gray-300"><%= @class_room.teacher.email %></p>
         </div>
-        <div class="bg-gray-50 p-4 rounded-lg">
-          <h4 class="text-sm font-medium text-gray-900">Students</h4>
-          <p class="text-lg text-gray-700">
+        <div class="bg-gray-50 dark:bg-gray-700 p-4 rounded-lg border border-gray-200 dark:border-gray-600">
+          <h4 class="text-sm font-medium text-gray-900 dark:text-white">Students</h4>
+          <p class="text-lg text-gray-700 dark:text-gray-300">
             <%= @class_room.approved_students.count %> / <%= @class_room.quota %>
           </p>
-          <div class="w-full bg-gray-200 rounded-full h-2 mt-2">
-            <div class="bg-blue-600 h-2 rounded-full" 
+          <div class="w-full bg-gray-200 dark:bg-gray-600 rounded-lg h-2 mt-2">
+            <div class="bg-blue-600 dark:bg-blue-400 h-2 rounded-lg" 
                  style="width: <%= (@class_room.approved_students.count.to_f / @class_room.quota * 100).round(1) %>%"></div>
           </div>
         </div>
-        <div class="bg-gray-50 p-4 rounded-lg">
-          <h4 class="text-sm font-medium text-gray-900">Created</h4>
-          <p class="text-lg text-gray-700"><%= @class_room.created_at.strftime("%B %d, %Y") %></p>
+        <div class="bg-gray-50 dark:bg-gray-700 p-4 rounded-lg border border-gray-200 dark:border-gray-600">
+          <h4 class="text-sm font-medium text-gray-900 dark:text-white">Created</h4>
+          <p class="text-lg text-gray-700 dark:text-gray-300"><%= @class_room.created_at.strftime("%B %d, %Y") %></p>
         </div>
       </div>
       <!-- Student Actions -->
@@ -49,23 +60,23 @@
           <% case @join_status
              when 'can_join' %>
             <%= link_to 'Join Classroom', join_class_room_path(@class_room), method: :post,
-                class: 'bg-green-500 hover:bg-green-700 text-white font-bold py-2 px-4 rounded',
+                class: 'bg-green-500 hover:bg-green-600 dark:bg-green-600 dark:hover:bg-green-700 text-white font-medium py-2 px-4 rounded-lg transition-colors',
                 data: { confirm: @class_room.invite_only? ? 'Are you sure? You will need teacher approval to join this private classroom.' : 'Are you sure you want to join this classroom?' } %>
           <% when 'pending' %>
-            <div class="bg-yellow-50 border border-yellow-200 rounded-md p-4">
-              <p class="text-yellow-800">Your join request is pending approval from the teacher.</p>
+            <div class="bg-yellow-50 dark:bg-yellow-900/20 border border-yellow-200 dark:border-yellow-700 rounded-lg p-4">
+              <p class="text-yellow-800 dark:text-yellow-300">Your join request is pending approval from the teacher.</p>
             </div>
           <% when 'already_joined' %>
-            <div class="bg-green-50 border border-green-200 rounded-md p-4">
-              <p class="text-green-800">You are already a member of this classroom.</p>
+            <div class="bg-green-50 dark:bg-green-900/20 border border-green-200 dark:border-green-700 rounded-lg p-4">
+              <p class="text-green-800 dark:text-green-300">You are already a member of this classroom.</p>
             </div>
           <% when 'full' %>
-            <div class="bg-red-50 border border-red-200 rounded-md p-4">
-              <p class="text-red-800">This classroom is full and cannot accept new students.</p>
+            <div class="bg-red-50 dark:bg-red-900/20 border border-red-200 dark:border-red-700 rounded-lg p-4">
+              <p class="text-red-800 dark:text-red-300">This classroom is full and cannot accept new students.</p>
             </div>
           <% when 'closed' %>
-            <div class="bg-gray-50 border border-gray-200 rounded-md p-4">
-              <p class="text-gray-800">This classroom is closed and not accepting new students.</p>
+            <div class="bg-gray-50 dark:bg-gray-700 border border-gray-200 dark:border-gray-600 rounded-lg p-4">
+              <p class="text-gray-800 dark:text-gray-300">This classroom is closed and not accepting new students.</p>
             </div>
           <% end %>
         </div>
@@ -75,9 +86,9 @@
         <div class="mb-6">
           <div class="flex space-x-4">
             <%= link_to 'Edit Classroom', edit_class_room_path(@class_room),
-                class: 'bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded' %>
+                class: 'bg-blue-500 hover:bg-blue-600 dark:bg-blue-600 dark:hover:bg-blue-700 text-white font-medium py-2 px-4 rounded-lg transition-colors' %>
             <%= link_to 'Delete Classroom', @class_room, method: :delete,
-                class: 'bg-red-500 hover:bg-red-700 text-white font-bold py-2 px-4 rounded',
+                class: 'bg-red-500 hover:bg-red-600 dark:bg-red-600 dark:hover:bg-red-700 text-white font-medium py-2 px-4 rounded-lg transition-colors',
                 data: { confirm: 'Are you sure? This will permanently delete the classroom and remove all students.' } %>
           </div>
         </div>
@@ -88,22 +99,22 @@
           <!-- Pending Students (for teachers/admin) -->
           <% if can_manage_students? && @pending_students.any? %>
             <div>
-              <h3 class="text-lg font-medium text-gray-900 mb-4">Pending Approval (<%= @pending_students.count %>)</h3>
-              <div class="bg-yellow-50 border border-yellow-200 rounded-md overflow-hidden">
-                <ul class="divide-y divide-yellow-200">
+              <h3 class="text-lg font-medium text-gray-900 dark:text-white mb-4">Pending Approval (<%= @pending_students.count %>)</h3>
+              <div class="bg-yellow-50 dark:bg-yellow-900/20 border border-yellow-200 dark:border-yellow-700 rounded-lg overflow-hidden">
+                <ul class="divide-y divide-yellow-200 dark:divide-yellow-700">
                   <% @pending_students.each do |student| %>
                     <li class="px-4 py-3 flex justify-between items-center">
                       <div>
-                        <p class="text-sm font-medium text-gray-900"><%= student.email %></p>
-                        <p class="text-sm text-gray-500">
+                        <p class="text-sm font-medium text-gray-900 dark:text-white"><%= student.email %></p>
+                        <p class="text-sm text-gray-500 dark:text-gray-400">
                           Requested: <%= @class_room.class_room_students.find_by(user: student).requested_at&.strftime("%B %d, %Y at %I:%M %p") %>
                         </p>
                       </div>
                       <div class="flex space-x-2">
                         <%= link_to 'Approve', approve_student_class_room_path(@class_room, user_id: student.id), method: :post,
-                            class: 'bg-green-500 hover:bg-green-700 text-white font-bold py-1 px-3 rounded text-sm' %>
+                            class: 'bg-green-500 hover:bg-green-600 dark:bg-green-600 dark:hover:bg-green-700 text-white font-medium py-1 px-3 rounded-lg text-sm transition-colors' %>
                         <%= link_to 'Reject', reject_student_class_room_path(@class_room, user_id: student.id), method: :post,
-                            class: 'bg-red-500 hover:bg-red-700 text-white font-bold py-1 px-3 rounded text-sm' %>
+                            class: 'bg-red-500 hover:bg-red-600 dark:bg-red-600 dark:hover:bg-red-700 text-white font-medium py-1 px-3 rounded-lg text-sm transition-colors' %>
                       </div>
                     </li>
                   <% end %>
@@ -114,20 +125,20 @@
           <!-- Approved Students -->
           <% if @approved_students.any? %>
             <div>
-              <h3 class="text-lg font-medium text-gray-900 mb-4">Students (<%= @approved_students.count %>)</h3>
-              <div class="bg-white border border-gray-200 rounded-md overflow-hidden">
-                <ul class="divide-y divide-gray-200">
+              <h3 class="text-lg font-medium text-gray-900 dark:text-white mb-4">Students (<%= @approved_students.count %>)</h3>
+              <div class="bg-white dark:bg-gray-700 border border-gray-200 dark:border-gray-600 rounded-lg overflow-hidden">
+                <ul class="divide-y divide-gray-200 dark:divide-gray-600">
                   <% @approved_students.each do |student| %>
                     <li class="px-4 py-3 flex justify-between items-center">
                       <div>
-                        <p class="text-sm font-medium text-gray-900"><%= student.email %></p>
-                        <p class="text-sm text-gray-500">
+                        <p class="text-sm font-medium text-gray-900 dark:text-white"><%= student.email %></p>
+                        <p class="text-sm text-gray-500 dark:text-gray-400">
                           Joined: <%= @class_room.class_room_students.find_by(user: student).approved_at&.strftime("%B %d, %Y") %>
                         </p>
                       </div>
                       <% if can_manage_students? %>
                         <%= link_to 'Remove', reject_student_class_room_path(@class_room, user_id: student.id), method: :post,
-                            class: 'bg-red-500 hover:bg-red-700 text-white font-bold py-1 px-3 rounded text-sm',
+                            class: 'bg-red-500 hover:bg-red-600 dark:bg-red-600 dark:hover:bg-red-700 text-white font-medium py-1 px-3 rounded-lg text-sm transition-colors',
                             data: { confirm: 'Are you sure you want to remove this student from the classroom?' } %>
                       <% end %>
                     </li>
@@ -137,7 +148,7 @@
             </div>
           <% else %>
             <div class="text-center py-8">
-              <p class="text-gray-500">No students have joined this classroom yet.</p>
+              <p class="text-gray-500 dark:text-gray-400">No students have joined this classroom yet.</p>
             </div>
           <% end %>
         </div>
@@ -146,6 +157,42 @@
   </div>
   <div class="mt-6">
     <%= link_to 'Back to Classrooms', class_rooms_path,
-        class: 'text-blue-600 hover:text-blue-900 font-medium' %>
+        class: 'text-blue-600 hover:text-blue-700 dark:text-blue-400 dark:hover:text-blue-300 font-medium transition-colors' %>
   </div>
 </div>
+<script>
+  function copyClassroomUrl() {
+    const urlInput = document.getElementById('classroom-url');
+    const copyButton = event.target;
+
+    // Select and copy the text
+    urlInput.select();
+    urlInput.setSelectionRange(0, 99999); // For mobile devices
+
+    navigator.clipboard.writeText(urlInput.value).then(function() {
+      // Success feedback
+      const originalText = copyButton.textContent;
+      copyButton.textContent = 'Copied!';
+      copyButton.classList.remove('bg-gray-500', 'hover:bg-gray-600', 'dark:bg-gray-600', 'dark:hover:bg-gray-700');
+      copyButton.classList.add('bg-green-500', 'hover:bg-green-600', 'dark:bg-green-600', 'dark:hover:bg-green-700');
+
+      // Reset after 2 seconds
+      setTimeout(function() {
+        copyButton.textContent = originalText;
+        copyButton.classList.remove('bg-green-500', 'hover:bg-green-600', 'dark:bg-green-600', 'dark:hover:bg-green-700');
+        copyButton.classList.add('bg-gray-500', 'hover:bg-gray-600', 'dark:bg-gray-600', 'dark:hover:bg-gray-700');
+      }, 2000);
+    }).catch(function(err) {
+      // Fallback for older browsers
+      try {
+        document.execCommand('copy');
+        copyButton.textContent = 'Copied!';
+        setTimeout(function() {
+          copyButton.textContent = 'Copy Link';
+        }, 2000);
+      } catch (err) {
+        console.error('Could not copy text: ', err);
+      }
+    });
+  }
+</script>
