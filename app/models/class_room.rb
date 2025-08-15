@@ -1,4 +1,20 @@
 class ClassRoom < ApplicationRecord
+  # id: integer (PK)
+  # name: string - not null
+  # subject: string - not null
+  # visibility: integer - default: 0 - not null
+  # quota: integer - default: 30 - not null
+  # status: integer - default: 0 - not null
+  # description: text
+  # teacher_id: integer (FK) - not null
+  # created_at: datetime - not null
+  # updated_at: datetime - not null
+
+  # Indexes
+  # index_class_rooms_on_status (status)
+  # index_class_rooms_on_teacher_id (teacher_id)
+  # index_class_rooms_on_visibility (visibility)
+
   belongs_to :teacher, class_name: "User"
   has_many :class_room_students, dependent: :destroy
   has_many :students, through: :class_room_students, source: :user

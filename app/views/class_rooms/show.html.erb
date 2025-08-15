@@ -185,3 +185,39 @@
     </div>
   </div>
 </div>
+<script>
+  function copyClassroomUrl() {
+    const urlInput = document.getElementById('classroom-url');
+    const copyButton = event.target;
+
+    // Select and copy the text
+    urlInput.select();
+    urlInput.setSelectionRange(0, 99999); // For mobile devices
+
+    navigator.clipboard.writeText(urlInput.value).then(function() {
+      // Success feedback
+      const originalText = copyButton.textContent;
+      copyButton.textContent = 'Copied!';
+      copyButton.classList.remove('bg-gray-500', 'hover:bg-gray-600', 'dark:bg-gray-600', 'dark:hover:bg-gray-700');
+      copyButton.classList.add('bg-green-500', 'hover:bg-green-600', 'dark:bg-green-600', 'dark:hover:bg-green-700');
+
+      // Reset after 2 seconds
+      setTimeout(function() {
+        copyButton.textContent = originalText;
+        copyButton.classList.remove('bg-green-500', 'hover:bg-green-600', 'dark:bg-green-600', 'dark:hover:bg-green-700');
+        copyButton.classList.add('bg-gray-500', 'hover:bg-gray-600', 'dark:bg-gray-600', 'dark:hover:bg-gray-700');
+      }, 2000);
+    }).catch(function(err) {
+      // Fallback for older browsers
+      try {
+        document.execCommand('copy');
+        copyButton.textContent = 'Copied!';
+        setTimeout(function() {
+          copyButton.textContent = 'Copy Link';
+        }, 2000);
+      } catch (err) {
+        console.error('Could not copy text: ', err);
+      }
+    });
+  }
+</script>
