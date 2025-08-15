@@ -27,30 +27,6 @@
   </svg>
   <span>Create Classroom</span>
 <% end %>
-<!-- My Active Classes -->
-<% if current_user.teaching_classes.any? %>
-  <div class="ml-3 mt-2 space-y-1">
-    <p class="text-xs text-gray-500 dark:text-gray-400 px-3 py-1">Active Classes</p>
-    <% current_user.teaching_classes.limit(5).each do |classroom| %>
-      <%= link_to classroom, class: "flex items-center justify-between space-x-2 px-3 py-1 text-sm text-gray-600 dark:text-gray-400 hover:bg-gray-50 dark:hover:bg-gray-700/50 rounded-md transition-colors" do %>
-        <div class="flex items-center space-x-2 min-w-0 flex-1">
-          <div class="w-2 h-2 <%= classroom.status == 'open' ? 'bg-green-500' : 'bg-red-500' %> rounded-full flex-shrink-0"></div>
-          <span class="truncate"><%= classroom.name %></span>
-        </div>
-        <% if classroom.pending_students.any? %>
-          <span class="bg-yellow-100 dark:bg-yellow-900 text-yellow-800 dark:text-yellow-200 text-xs px-1.5 py-0.5 rounded-full flex-shrink-0">
-            <%= classroom.pending_students.count %>
-          </span>
-        <% end %>
-      <% end %>
-    <% end %>
-    <% if current_user.teaching_classes.count > 5 %>
-      <%= link_to class_rooms_path, class: "flex items-center space-x-2 px-3 py-1 text-xs text-blue-600 dark:text-blue-400 hover:bg-gray-50 dark:hover:bg-gray-700/50 rounded-md transition-colors" do %>
-        <span>View all (<%= current_user.teaching_classes.count %>)</span>
-      <% end %>
-    <% end %>
-  </div>
-<% end %>
 <!-- Pending Approvals Alert -->
 <% pending_approvals_count = current_user.teaching_classes.joins(:class_room_students).where(class_room_students: { approval_status: 'pending' }).count %>
 <% if pending_approvals_count > 0 %>
