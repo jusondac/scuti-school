@@ -20,10 +20,10 @@ class ClassRoomStudent < ApplicationRecord
   private
 
   def set_requested_at
-    self.requested_at = Time.current if requested_at.blank?
+    self.requested_at = Time.current if self.requested_at.blank?
   end
 
   def set_approved_at
-    self.approved_at = Time.current if approved?
+    self.approved_at = Time.current if self.approved?
   end
 end

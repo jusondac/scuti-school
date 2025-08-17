@@ -9,12 +9,9 @@ class ClassRoomsController < ApplicationController
 
   def index
     @class_rooms = case current_user.role
-    when "admin"
-                     ClassRoom.all
-    when "teacher"
-                     current_user.teaching_classes
-    when "student"
-                     ClassRoom.public_classes.open_classes
+    when "admin" then ClassRoom.all
+    when "teacher" then current_user.teaching_classes
+    when "student" then ClassRoom.public_classes.open_classes
     end
 
     @class_rooms = @class_rooms.includes(:teacher, :students, :pending_students)
