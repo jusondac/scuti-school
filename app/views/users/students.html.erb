@@ -3,13 +3,31 @@
   <div class="mb-8 flex items-center justify-between">
     <div>
       <h1 class="text-3xl font-bold text-gray-900 dark:text-white">Students</h1>
-      <p class="mt-2 text-gray-600 dark:text-gray-300">All registered students in the system (<%= @students.count %> total)</p>
+      <p class="mt-2 text-gray-600 dark:text-gray-300">All registered students in the system (<%= @pagy.count %> total)</p>
     </div>
     <%= link_to users_path, class: "inline-flex items-center px-4 py-2 border border-gray-300 dark:border-gray-600 rounded-md shadow-sm text-sm font-medium text-gray-700 dark:text-gray-300 bg-white dark:bg-gray-800 hover:bg-gray-50 dark:hover:bg-gray-700" do %>
       <svg class="mr-2 h-4 w-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
         <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 19l-7-7m0 0l7-7m-7 7h18"></path>
       </svg>
       Back to User Management
+    <% end %>
+  </div>
+  <!-- Search Form -->
+  <div class="mb-8">
+    <%= search_form_for @q, url: students_users_path, method: :get, class: "bg-white dark:bg-gray-800 shadow sm:rounded-lg border border-gray-200 dark:border-gray-700 p-6" do |f| %>
+      <div class="mb-4">
+        <h3 class="text-lg font-medium text-gray-900 dark:text-white mb-4">Search Students</h3>
+        <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+          <div>
+            <%= f.search_field :email_cont, placeholder: "Search by email...", 
+                class: "block w-full rounded-md border-gray-300 dark:border-gray-600 dark:bg-gray-700 dark:text-white shadow-sm focus:border-indigo-500 focus:ring-indigo-500 sm:text-sm" %>
+          </div>
+          <div class="flex items-center space-x-4">
+            <%= f.submit "Search", class: "bg-indigo-600 hover:bg-indigo-700 text-white px-4 py-2 rounded-md text-sm font-medium" %>
+            <%= link_to "Clear", students_users_path, class: "bg-gray-300 hover:bg-gray-400 text-gray-700 px-4 py-2 rounded-md text-sm font-medium" %>
+          </div>
+        </div>
+      </div>
     <% end %>
   </div>
   <div class="bg-white dark:bg-gray-800 shadow overflow-hidden sm:rounded-md">
@@ -59,4 +77,10 @@
       <% end %>
     </ul>
   </div>
+  <!-- Pagination -->
+  <% if @students.any? %>
+    <div class="mt-6">
+      <%== pagy_nav(@pagy) %>
+    </div>
+  <% end %>
 </div>

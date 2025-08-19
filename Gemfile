@@ -72,3 +72,9 @@ gem "dotenv", "~> 3.1"
 
 gem "byebug", "~> 12.0"
 gem "awesome_print", "~> 1.9"
+
+# Search functionality
+gem "ransack", "~> 4.2"
+
+# Pagination
+gem "pagy", "~> 9.1"

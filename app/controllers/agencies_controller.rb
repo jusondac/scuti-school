@@ -4,9 +4,19 @@ class AgenciesController < ApplicationController
   before_action :authorize_admin, only: [ :index, :approve, :reject, :destroy, :bulk_action ]
 
   def index
-    @pending_agencies = Agency.pending_approval.includes(:user)
-    @approved_agencies = Agency.approved_agencies.includes(:user)
-    @rejected_agencies = Agency.where(status: :rejected).includes(:user)
+    # Initialize search parameters
+    @q = Agency.ransack(params[:q])
+    base_agencies = @q.result.includes(:user)
+
+    # Counts
+    @pending_count  = base_agencies.pending_approval.count
+    @approved_count = base_agencies.approved.count
+    @rejected_count = base_agencies.rejected.count
+
+    # Paginated results
+    @pagy_pending,  @pending_agencies  = pagy_with_rescue(base_agencies.pending_approval,  :pending_page)
+    @pagy_approved, @approved_agencies = pagy_with_rescue(base_agencies.approved,          :approved_page)
+    @pagy_rejected, @rejected_agencies = pagy_with_rescue(base_agencies.rejected,          :rejected_page)
   end
 
   def show
@@ -108,6 +118,14 @@ class AgenciesController < ApplicationController
   end
 
   private
+
+  def pagy_with_rescue(scope, page_param)
+    pagy(scope, page_param: page_param, items: 10)
+  rescue Pagy::OverflowError
+    pagy(scope, page_param: page_param, page: 1, items: 10)
+  rescue StandardError
+    [nil, scope.limit(10)]
+  end
 
   def set_agency
     @agency = Agency.find(params[:id])

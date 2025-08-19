@@ -1,0 +1,64 @@
+/* Pagy custom styling for Tailwind CSS */
+
+/* Pagy navigation container */
+nav.pagy-nav {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 0.25rem;
+  margin-top: 1rem;
+}
+
+nav.pagy-nav .page {
+  padding: 0.5rem 0.75rem;
+  font-size: 0.875rem;
+  font-weight: 500;
+  color: #6B7280;
+  border: 1px solid #D1D5DB;
+  border-radius: 0.375rem;
+  text-decoration: none;
+  transition: all 0.2s ease-in-out;
+}
+
+nav.pagy-nav .page:hover {
+  background-color: #F9FAFB;
+  color: #374151;
+}
+
+nav.pagy-nav .page.current {
+  background-color: #4F46E5;
+  color: white;
+  border-color: #4F46E5;
+}
+
+nav.pagy-nav .page.gap {
+  border: none;
+  color: #9CA3AF;
+  cursor: default;
+}
+
+nav.pagy-nav .page.gap:hover {
+  background: none;
+  color: #9CA3AF;
+}
+
+/* Dark mode support */
+@media (prefers-color-scheme: dark) {
+  nav.pagy-nav .page {
+    color: #9CA3AF;
+    border-color: #4B5563;
+  }
+
+  nav.pagy-nav .page:hover {
+    background-color: #374151;
+    color: #D1D5DB;
+  }
+
+  nav.pagy-nav .page.gap {
+    color: #6B7280;
+  }
+
+  nav.pagy-nav .page.gap:hover {
+    color: #6B7280;
+  }
+}

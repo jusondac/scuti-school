@@ -10,11 +10,13 @@ class UsersController < ApplicationController
   end
 
   def students
-    @students = User.where(role: :student).order(:email)
+    @q = User.ransack(params[:q])
+    @pagy, @students = pagy(@q.result.where(role: :student).order(:email), items: 15)
   end
 
   def teachers
-    @teachers = User.where(role: :teacher).order(:email)
+    @q = User.ransack(params[:q])
+    @pagy, @teachers = pagy(@q.result.where(role: :teacher).order(:email), items: 15)
   end
 
   private

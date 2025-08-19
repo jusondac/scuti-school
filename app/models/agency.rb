@@ -19,8 +19,8 @@ class Agency < ApplicationRecord
   validates :phone, presence: true
   validates :address, presence: true
 
-  scope :pending_approval, -> { where(status: :pending) }
-  scope :approved_agencies, -> { where(status: :approved) }
+  scope :pending_approval, -> { pending }
+  scope :approved_agencies, -> { approved }
 
   def pending?
     status == "pending"
@@ -32,5 +32,9 @@ class Agency < ApplicationRecord
 
   def rejected?
     status == "rejected"
+  end
+
+  def self.ransackable_attributes(auth_object = nil)
+    ["address", "created_at", "description", "email", "id", "name", "phone", "status", "updated_at", "user_id"]
   end
 end
