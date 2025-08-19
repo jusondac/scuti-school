@@ -14,7 +14,6 @@
           </div>
         </div>
       </div>
-
       <!-- Navigation Menu based on role -->
       <nav class="space-y-2">
         <% if current_user.student? %>
@@ -23,11 +22,12 @@
           <%= render 'shared/sidebar/teacher' %>
         <% elsif current_user.admin? %>
           <%= render 'shared/sidebar/admin' %>
+        <% elsif current_user.agency? %>
+          <%= render 'shared/sidebar/agency' %>
         <% end %>
       </nav>
     </div>
   </aside>
-
   <!-- Sidebar overlay for mobile -->
   <div id="sidebar-overlay" class="fixed inset-0 bg-black bg-opacity-50 z-20 hidden lg:hidden"></div>
 <% end %>

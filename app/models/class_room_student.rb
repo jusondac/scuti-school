@@ -1,4 +1,12 @@
 class ClassRoomStudent < ApplicationRecord
+  # id: integer (PK)
+  # class_room_id: integer (FK) - not null
+  # user_id: integer (FK) - not null
+  # approval_status: integer - default: 0
+  # created_at: datetime - not null
+  # updated_at: datetime - not null
+  # requested_at: datetime
+  # approved_at: datetime
   belongs_to :class_room
   belongs_to :user
 

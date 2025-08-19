@@ -1,0 +1,149 @@
+<% content_for :title, @agency.name %>
+<div class="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
+  <div class="mb-8">
+    <%= link_to agencies_path, class: "inline-flex items-center text-sm text-indigo-600 dark:text-indigo-400 hover:text-indigo-800 dark:hover:text-indigo-300 mb-4" do %>
+      <svg class="w-4 h-4 mr-1" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 19l-7-7 7-7"></path>
+      </svg>
+      Back to Agencies
+    <% end %>
+    <div class="flex items-center justify-between">
+      <div>
+        <h1 class="text-3xl font-bold text-gray-900 dark:text-white"><%= @agency.name %></h1>
+        <div class="mt-2">
+          <span class="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium <%= 
+            case @agency.status
+            when 'pending'
+              'bg-yellow-100 text-yellow-800 dark:bg-yellow-900/20 dark:text-yellow-400'
+            when 'approved'  
+              'bg-green-100 text-green-800 dark:bg-green-900/20 dark:text-green-400'
+            when 'rejected'
+              'bg-red-100 text-red-800 dark:bg-red-900/20 dark:text-red-400'
+            end
+          %>">
+            <%= @agency.status.capitalize %>
+          </span>
+        </div>
+      </div>
+      <% if current_user.admin? %>
+        <div class="flex space-x-3">
+          <% if @agency.pending? %>
+            <%= button_to approve_agency_path(@agency), method: :post, 
+                data: { confirm: "Are you sure you want to approve this agency?" },
+                class: "bg-green-600 text-white px-4 py-2 rounded-lg hover:bg-green-700 transition-colors" do %>
+              Approve
+            <% end %>
+            <%= button_to reject_agency_path(@agency), method: :post,
+                data: { confirm: "Are you sure you want to reject this agency?" },
+                class: "bg-red-600 text-white px-4 py-2 rounded-lg hover:bg-red-700 transition-colors" do %>
+              Reject
+            <% end %>
+          <% end %>
+          <%= button_to @agency, method: :delete,
+              data: { confirm: "Are you sure you want to delete this agency?" },
+              class: "bg-gray-600 text-white px-4 py-2 rounded-lg hover:bg-gray-700 transition-colors" do %>
+            Delete
+          <% end %>
+        </div>
+      <% elsif @agency.user == current_user %>
+        <div>
+          <%= link_to edit_agency_path(@agency), class: "bg-indigo-600 text-white px-4 py-2 rounded-lg hover:bg-indigo-700 transition-colors" do %>
+            Edit Profile
+          <% end %>
+        </div>
+      <% end %>
+    </div>
+  </div>
+  <!-- Agency Details -->
+  <div class="bg-white dark:bg-gray-800 shadow overflow-hidden sm:rounded-lg border border-gray-200 dark:border-gray-700">
+    <div class="px-4 py-5 sm:px-6">
+      <h3 class="text-lg leading-6 font-medium text-gray-900 dark:text-white">Agency Information</h3>
+      <p class="mt-1 max-w-2xl text-sm text-gray-500 dark:text-gray-400">Details and contact information for this agency.</p>
+    </div>
+    <div class="border-t border-gray-200 dark:border-gray-700">
+      <dl>
+        <div class="bg-gray-50 dark:bg-gray-900 px-4 py-5 sm:grid sm:grid-cols-3 sm:gap-4 sm:px-6">
+          <dt class="text-sm font-medium text-gray-500 dark:text-gray-400">Agency Name</dt>
+          <dd class="mt-1 text-sm text-gray-900 dark:text-white sm:mt-0 sm:col-span-2"><%= @agency.name %></dd>
+        </div>
+        <div class="bg-white dark:bg-gray-800 px-4 py-5 sm:grid sm:grid-cols-3 sm:gap-4 sm:px-6">
+          <dt class="text-sm font-medium text-gray-500 dark:text-gray-400">Email Address</dt>
+          <dd class="mt-1 text-sm text-gray-900 dark:text-white sm:mt-0 sm:col-span-2">
+            <%= link_to @agency.email, "mailto:#{@agency.email}", class: "text-indigo-600 dark:text-indigo-400 hover:text-indigo-800 dark:hover:text-indigo-300" %>
+          </dd>
+        </div>
+        <div class="bg-gray-50 dark:bg-gray-900 px-4 py-5 sm:grid sm:grid-cols-3 sm:gap-4 sm:px-6">
+          <dt class="text-sm font-medium text-gray-500 dark:text-gray-400">Phone Number</dt>
+          <dd class="mt-1 text-sm text-gray-900 dark:text-white sm:mt-0 sm:col-span-2">
+            <%= link_to @agency.phone, "tel:#{@agency.phone}", class: "text-indigo-600 dark:text-indigo-400 hover:text-indigo-800 dark:hover:text-indigo-300" %>
+          </dd>
+        </div>
+        <div class="bg-white dark:bg-gray-800 px-4 py-5 sm:grid sm:grid-cols-3 sm:gap-4 sm:px-6">
+          <dt class="text-sm font-medium text-gray-500 dark:text-gray-400">Address</dt>
+          <dd class="mt-1 text-sm text-gray-900 dark:text-white sm:mt-0 sm:col-span-2"><%= simple_format(@agency.address) %></dd>
+        </div>
+        <div class="bg-gray-50 dark:bg-gray-900 px-4 py-5 sm:grid sm:grid-cols-3 sm:gap-4 sm:px-6">
+          <dt class="text-sm font-medium text-gray-500 dark:text-gray-400">Description</dt>
+          <dd class="mt-1 text-sm text-gray-900 dark:text-white sm:mt-0 sm:col-span-2"><%= simple_format(@agency.description) %></dd>
+        </div>
+        <div class="bg-white dark:bg-gray-800 px-4 py-5 sm:grid sm:grid-cols-3 sm:gap-4 sm:px-6">
+          <dt class="text-sm font-medium text-gray-500 dark:text-gray-400">Status</dt>
+          <dd class="mt-1 text-sm sm:mt-0 sm:col-span-2">
+            <span class="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium <%= 
+              case @agency.status
+              when 'pending'
+                'bg-yellow-100 text-yellow-800 dark:bg-yellow-900/20 dark:text-yellow-400'
+              when 'approved'  
+                'bg-green-100 text-green-800 dark:bg-green-900/20 dark:text-green-400'
+              when 'rejected'
+                'bg-red-100 text-red-800 dark:bg-red-900/20 dark:text-red-400'
+              end
+            %>">
+              <%= @agency.status.capitalize %>
+            </span>
+          </dd>
+        </div>
+        <div class="bg-gray-50 dark:bg-gray-900 px-4 py-5 sm:grid sm:grid-cols-3 sm:gap-4 sm:px-6">
+          <dt class="text-sm font-medium text-gray-500 dark:text-gray-400">Application Submitted</dt>
+          <dd class="mt-1 text-sm text-gray-900 dark:text-white sm:mt-0 sm:col-span-2">
+            <%= @agency.created_at.strftime("%B %d, %Y at %I:%M %p") %>
+          </dd>
+        </div>
+        <% if @agency.approved? %>
+          <div class="bg-white dark:bg-gray-800 px-4 py-5 sm:grid sm:grid-cols-3 sm:gap-4 sm:px-6">
+            <dt class="text-sm font-medium text-gray-500 dark:text-gray-400">Approved Date</dt>
+            <dd class="mt-1 text-sm text-gray-900 dark:text-white sm:mt-0 sm:col-span-2">
+              <%= @agency.updated_at.strftime("%B %d, %Y at %I:%M %p") %>
+            </dd>
+          </div>
+        <% end %>
+      </dl>
+    </div>
+  </div>
+  <!-- Contact Person -->
+  <div class="mt-6 bg-white dark:bg-gray-800 shadow overflow-hidden sm:rounded-lg border border-gray-200 dark:border-gray-700">
+    <div class="px-4 py-5 sm:px-6">
+      <h3 class="text-lg leading-6 font-medium text-gray-900 dark:text-white">Contact Person</h3>
+      <p class="mt-1 max-w-2xl text-sm text-gray-500 dark:text-gray-400">Primary contact for this agency.</p>
+    </div>
+    <div class="border-t border-gray-200 dark:border-gray-700">
+      <dl>
+        <div class="bg-gray-50 dark:bg-gray-900 px-4 py-5 sm:grid sm:grid-cols-3 sm:gap-4 sm:px-6">
+          <dt class="text-sm font-medium text-gray-500 dark:text-gray-400">User Account</dt>
+          <dd class="mt-1 text-sm text-gray-900 dark:text-white sm:mt-0 sm:col-span-2">
+            <%= @agency.user.email %>
+            <span class="ml-2 inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium bg-blue-100 text-blue-800 dark:bg-blue-900/20 dark:text-blue-400">
+              <%= @agency.user.role.capitalize %>
+            </span>
+          </dd>
+        </div>
+        <div class="bg-white dark:bg-gray-800 px-4 py-5 sm:grid sm:grid-cols-3 sm:gap-4 sm:px-6">
+          <dt class="text-sm font-medium text-gray-500 dark:text-gray-400">Account Created</dt>
+          <dd class="mt-1 text-sm text-gray-900 dark:text-white sm:mt-0 sm:col-span-2">
+            <%= @agency.user.created_at.strftime("%B %d, %Y") %>
+          </dd>
+        </div>
+      </dl>
+    </div>
+  </div>
+</div>

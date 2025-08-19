@@ -6,6 +6,8 @@
     <%= render 'teacher_dashboard' %>
   <% elsif current_user.admin? %>
     <%= render 'admin_dashboard' %>
+  <% elsif current_user.agency? %>
+    <%= render 'agency_dashboard' %>
   <% end %>
 <% else %>
   <!-- Public Landing Page -->
@@ -74,6 +76,54 @@
             Every student receives a tailored educational experience that adapts to their 
             learning style, pace, and interests for optimal academic growth.
           </p>
+        </div>
+      </div>
+      <!-- Agency Registration Section -->
+      <div id="agency-registration" class="mb-20">
+        <div class="rounded-3xl p-8 md:p-12">
+          <div class="max-w-4xl mx-auto">
+            <div class="text-center mb-12">
+              <div class="inline-flex items-center px-4 py-2 bg-indigo-100 dark:bg-indigo-900/50 rounded-full mb-6">
+                <span class="text-indigo-600 dark:text-indigo-400 text-sm font-medium">🏢 For Agencies</span>
+              </div>
+              <h2 class="text-4xl md:text-5xl font-bold text-gray-900 dark:text-white mb-6">
+                Partner with <span class="text-indigo-600 dark:text-indigo-400">Scuti</span>
+              </h2>
+              <p class="text-xl text-gray-600 dark:text-gray-300 max-w-3xl mx-auto">
+                Are you an educational agency? Join our network and provide cutting-edge AI-powered education to your students.
+              </p>
+            </div>
+            <%= form_with model: Agency.new, url: agencies_path, local: true, class: "max-w-2xl mx-auto" do |form| %>
+              <div class="bg-white dark:bg-gray-800 rounded-2xl p-8 shadow-lg border border-gray-100 dark:border-gray-700">
+                <h3 class="text-2xl font-bold text-gray-900 dark:text-white mb-6 text-center">Apply to Become a Partner Agency</h3>
+                <div class="space-y-6">
+                  <div>
+                    <%= form.label :name, "Agency Name", class: "block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2" %>
+                    <%= form.text_field :name, class: "w-full px-4 py-3 border border-gray-300 dark:border-gray-600 rounded-lg focus:ring-2 focus:ring-indigo-500 focus:border-indigo-500 dark:bg-gray-700 dark:text-white", placeholder: "Enter your agency name" %>
+                  </div>
+                  <div>
+                    <%= form.label :email, "Contact Email", class: "block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2" %>
+                    <%= form.email_field :email, class: "w-full px-4 py-3 border border-gray-300 dark:border-gray-600 rounded-lg focus:ring-2 focus:ring-indigo-500 focus:border-indigo-500 dark:bg-gray-700 dark:text-white", placeholder: "agency@example.com" %>
+                  </div>
+                  <div>
+                    <%= form.label :phone, "Phone Number", class: "block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2" %>
+                    <%= form.text_field :phone, class: "w-full px-4 py-3 border border-gray-300 dark:border-gray-600 rounded-lg focus:ring-2 focus:ring-indigo-500 focus:border-indigo-500 dark:bg-gray-700 dark:text-white", placeholder: "+1 (555) 123-4567" %>
+                  </div>
+                  <div>
+                    <%= form.label :address, "Address", class: "block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2" %>
+                    <%= form.text_area :address, rows: 3, class: "w-full px-4 py-3 border border-gray-300 dark:border-gray-600 rounded-lg focus:ring-2 focus:ring-indigo-500 focus:border-indigo-500 dark:bg-gray-700 dark:text-white", placeholder: "Enter your agency address" %>
+                  </div>
+                  <div>
+                    <%= form.label :description, "About Your Agency", class: "block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2" %>
+                    <%= form.text_area :description, rows: 4, class: "w-full px-4 py-3 border border-gray-300 dark:border-gray-600 rounded-lg focus:ring-2 focus:ring-indigo-500 focus:border-indigo-500 dark:bg-gray-700 dark:text-white", placeholder: "Tell us about your agency, your mission, and how you plan to use our platform..." %>
+                  </div>
+                  <div class="text-center">
+                    <%= form.submit "Submit Application", class: "bg-indigo-600 dark:bg-indigo-500 text-white px-8 py-3 rounded-lg font-semibold hover:bg-indigo-700 dark:hover:bg-indigo-600 transition-colors cursor-pointer" %>
+                  </div>
+                </div>
+              </div>
+            <% end %>
+          </div>
         </div>
       </div>
       <!-- Pricing Plans Section -->

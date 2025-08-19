@@ -11,7 +11,7 @@
 # Only seed if User table is empty
 if User.count == 0
   puts "Seeding users..."
-  
+
   3.times do |i|
     User.find_or_create_by!(email: "teacher#{i + 1}@gmail.com") do |user|
       user.role = 'teacher'
@@ -33,7 +33,31 @@ if User.count == 0
     user.access_level = 'high'
     user.password = 'password123'
   end
-  
+
+  # Create dedicated admin user
+  User.find_or_create_by!(email: "admin@scuti.school") do |user|
+    user.role = 'admin'
+    user.access_level = 'high'
+    user.password = 'admin123'
+  end
+
+  # Create agency user
+  agency_user = User.find_or_create_by!(email: "agency@example.com") do |user|
+    user.role = 'agency'
+    user.access_level = 'normal'
+    user.password = 'agency123'
+  end
+
+  # Create agency record for the agency user
+  Agency.find_or_create_by!(user: agency_user) do |agency|
+    agency.name = "Example Educational Agency"
+    agency.email = "agency@example.com"
+    agency.phone = "+1 (555) 123-4567"
+    agency.address = "123 Education Street, Learning City, LC 12345"
+    agency.description = "We are a leading educational agency providing innovative learning solutions and partnering with schools to deliver quality education using cutting-edge technology."
+    agency.status = :approved
+  end
+
   puts "Created #{User.count} users."
 else
   puts "Users already exist. Skipping user creation."
@@ -42,17 +66,17 @@ end
 # Create classrooms for each teacher
 if ClassRoom.count == 0
   puts "Seeding classrooms..."
-  
-  subjects = ["Mathematics", "Science", "English", "History", "Physics", "Chemistry", "Biology", "Geography"]
+
+  subjects = [ "Mathematics", "Science", "English", "History", "Physics", "Chemistry", "Biology", "Geography" ]
 
   User.where(role: 'teacher').each do |teacher|
     # Each teacher gets 1-3 classrooms
     classroom_count = rand(1..3)
-    
+
     classroom_count.times do |i|
       # Ensure at least one classroom is private (invite_only)
-      visibility = (i == 0) ? :invite_only : [:visible_to_all, :invite_only].sample
-      
+      visibility = (i == 0) ? :invite_only : [ :visible_to_all, :invite_only ].sample
+
       ClassRoom.find_or_create_by!(
         name: "#{subjects.sample} Class #{i + 1}",
         teacher: teacher
@@ -65,7 +89,7 @@ if ClassRoom.count == 0
       end
     end
   end
-  
+
   puts "Created #{ClassRoom.count} classrooms."
 else
   puts "Classrooms already exist. Skipping classroom creation."

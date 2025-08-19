@@ -18,7 +18,7 @@ class User < ApplicationRecord
   devise :omniauthable, :database_authenticatable, :registerable,
          :recoverable, :rememberable, :validatable
 
-  enum :role, { student: 0, teacher: 1, admin: 2 }
+  enum :role, { student: 0, teacher: 1, admin: 2, agency: 3 }
   enum :access_level, { normal: 0, high: 1 }
 
   # Teacher associations
@@ -31,6 +31,9 @@ class User < ApplicationRecord
            through: :class_room_students, source: :class_room
   has_many :approved_classes, -> { where(class_room_students: { approval_status: "approved" }) },
            through: :class_room_students, source: :class_room
+
+  # Agency associations
+  has_one :agency, dependent: :destroy
 
   def self.from_google(u)
     create_with(uid: u[:uid], provider: "google", password: devise.friendly_token[0, 20]).find_or_create_by!(email: u[:email])
@@ -51,5 +54,21 @@ class User < ApplicationRecord
     return true if teacher? && teaching_classes.include?(class_room)
     return true if student? && approved_classes.include?(class_room)
     false
+  end
+
+  def can_manage_agencies?
+    admin?
+  end
+
+  def can_view_agency_requests?
+    admin?
+  end
+
+  def can_view_users_list?
+    admin?
+  end
+
+  def is_agency_admin?
+    agency? && agency&.approved?
   end
 end

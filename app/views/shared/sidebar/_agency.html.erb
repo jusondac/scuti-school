@@ -1,0 +1,81 @@
+<!-- Agency Menu -->
+<%= link_to root_path, class: "flex items-center space-x-3 px-3 py-2 text-gray-700 dark:text-gray-300 hover:bg-gray-100 dark:hover:bg-gray-700 rounded-lg transition-colors #{'bg-gray-100 dark:bg-gray-700' if current_page?(root_path)}" do %>
+  <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 21V5a2 2 0 00-2-2H7a2 2 0 00-2 2v16m14 0h2m-2 0h-5m-9 0H3m2 0h5M9 7h1m-1 4h1m4-4h1m-1 4h1m-5 10v-5a1 1 0 011-1h2a1 1 0 011 1v5m-4 0h4"></path>
+  </svg>
+  <span>Agency Dashboard</span>
+<% end %>
+<!-- Agency Management Section -->
+<div class="mt-6 mb-3">
+  <h3 class="text-xs font-semibold text-gray-500 dark:text-gray-400 uppercase tracking-wider mb-2">Agency Management</h3>
+</div>
+<% if current_user.agency&.approved? %>
+  <%= link_to agencies_path(current_user.agency), class: "flex items-center space-x-3 px-3 py-2 text-gray-700 dark:text-gray-300 hover:bg-gray-100 dark:hover:bg-gray-700 rounded-lg transition-colors" do %>
+    <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+      <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z"></path>
+    </svg>
+    <span>Agency Profile</span>
+  <% end %>
+  <%= link_to class_rooms_path, class: "flex items-center space-x-3 px-3 py-2 text-gray-700 dark:text-gray-300 hover:bg-gray-100 dark:hover:bg-gray-700 rounded-lg transition-colors #{'bg-gray-100 dark:bg-gray-700' if current_page?(class_rooms_path)}" do %>
+    <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+      <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 6.253v13m0-13C10.832 5.477 9.246 5 7.5 5S4.168 5.477 3 6.253v13C4.168 18.477 5.754 18 7.5 18s3.332.477 4.5 1.253m0-13C13.168 5.477 14.754 5 16.5 5c1.746 0 3.332.477 4.5 1.253v13C19.832 18.477 18.246 18 16.5 18c-1.746 0-3.332.477-4.5 1.253"></path>
+    </svg>
+    <span>Classrooms</span>
+    <% total_classrooms = ClassRoom.count %>
+    <% if total_classrooms > 0 %>
+      <span class="ml-auto bg-blue-100 dark:bg-blue-900 text-blue-800 dark:text-blue-200 text-xs px-2 py-1 rounded-full">
+        <%= total_classrooms %>
+      </span>
+    <% end %>
+  <% end %>
+<% else %>
+  <!-- Agency Pending Approval -->
+  <div class="px-3 py-2 bg-yellow-50 dark:bg-yellow-900/20 rounded-lg">
+    <div class="flex items-center space-x-2">
+      <svg class="w-5 h-5 text-yellow-600 dark:text-yellow-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 9v2m0 4h.01m-6.938 4h13.856c1.54 0 2.502-1.667 1.732-2.5L13.732 4c-.77-.833-1.732-.833-2.5 0L3.732 16.5c-.77.833.192 2.5 1.732 2.5z"></path>
+      </svg>
+      <div>
+        <p class="text-sm font-medium text-yellow-800 dark:text-yellow-200">Application Pending</p>
+        <p class="text-xs text-yellow-600 dark:text-yellow-400">Your agency application is under review</p>
+      </div>
+    </div>
+  </div>
+<% end %>
+<!-- Reports Section -->
+<div class="mt-6 mb-3">
+  <h3 class="text-xs font-semibold text-gray-500 dark:text-gray-400 uppercase tracking-wider mb-2">Reports & Analytics</h3>
+</div>
+<%= link_to "#", class: "flex items-center space-x-3 px-3 py-2 text-gray-700 dark:text-gray-300 hover:bg-gray-100 dark:hover:bg-gray-700 rounded-lg transition-colors" do %>
+  <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 19v-6a2 2 0 00-2-2H5a2 2 0 00-2 2v6a2 2 0 002 2h2a2 2 0 002-2zm0 0V9a2 2 0 012-2h2a2 2 0 012 2v10m-6 0a2 2 0 002 2h2a2 2 0 002-2m0 0V5a2 2 0 012-2h2a2 2 0 012 2v4a2 2 0 01-2 2h-2a2 2 0 00-2-2z"></path>
+  </svg>
+  <span>Student Performance</span>
+<% end %>
+<%= link_to "#", class: "flex items-center space-x-3 px-3 py-2 text-gray-700 dark:text-gray-300 hover:bg-gray-100 dark:hover:bg-gray-700 rounded-lg transition-colors" do %>
+  <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8c-1.657 0-3 .895-3 2s1.343 2 3 2 3 .895 3 2-1.343 2-3 2m0-8c1.11 0 2.08.402 2.599 1M12 8V7m0 1v8m0 0v1m0-1c-1.11 0-2.08-.402-2.599-1M21 12a9 9 0 11-18 0 9 9 0 0118 0z"></path>
+  </svg>
+  <span>Financial Reports</span>
+<% end %>
+<!-- Quick Stats for Agency -->
+<% if current_user.agency&.approved? %>
+  <div class="mt-6 space-y-2">
+    <div class="px-3 py-2 bg-indigo-50 dark:bg-indigo-900/20 rounded-lg">
+      <div class="text-center">
+        <div class="text-lg font-bold text-indigo-600 dark:text-indigo-400"><%= ClassRoom.count %></div>
+        <div class="text-xs text-indigo-500 dark:text-indigo-400">Active Classrooms</div>
+      </div>
+    </div>
+    <div class="grid grid-cols-2 gap-2 text-xs">
+      <div class="bg-green-50 dark:bg-green-900/20 px-2 py-1 rounded-md text-center">
+        <div class="text-green-600 dark:text-green-400 font-medium"><%= User.where(role: :student).count %></div>
+        <div class="text-green-500 dark:text-green-500">Students</div>
+      </div>
+      <div class="bg-purple-50 dark:bg-purple-900/20 px-2 py-1 rounded-md text-center">
+        <div class="text-purple-600 dark:text-purple-400 font-medium"><%= User.where(role: :teacher).count %></div>
+        <div class="text-purple-500 dark:text-purple-500">Teachers</div>
+      </div>
+    </div>
+  </div>
+<% end %>

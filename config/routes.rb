@@ -14,6 +14,23 @@ Rails.application.routes.draw do
     end
   end
 
+  resources :agencies do
+    collection do
+      post :bulk_action
+    end
+    member do
+      post :approve
+      post :reject
+    end
+  end
+
+  resources :users, only: [ :index ] do
+    collection do
+      get :students
+      get :teachers
+    end
+  end
+
   # Define your application routes per the DSL in https://guides.rubyonrails.org/routing.html
 
   # Reveal health status on /up that returns 200 if the app boots with no exceptions, otherwise 500.
