@@ -74,7 +74,7 @@ gem "byebug", "~> 12.0"
 gem "awesome_print", "~> 1.9"
 
 # Search functionality
-gem "ransack", "~> 4.2"
+gem "ransack", "~> 4.4"
 
 # Pagination
 gem "pagy", "~> 9.1"
